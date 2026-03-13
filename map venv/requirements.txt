@@ -1,0 +1,15 @@
+streamlit==1.55.0
+streamlit-folium==0.26.2
+streamlit-geolocation==0.0.10
+folium==0.20.0
+branca==0.8.2
+numpy==2.4.3
+scipy==1.17.1
+requests==2.32.5
+osmnx==2.1.0
+networkx==3.6.1
+matplotlib==3.10.8
+pillow==12.1.1
+pandas==2.3.3
+geopy==2.4.1
+geopandas==1.1.3

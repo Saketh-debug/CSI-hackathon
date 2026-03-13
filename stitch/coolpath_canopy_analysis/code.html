@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0da2e7",
+                        "secondary": "#10b77f",
+                        "background-light": "#f8fafc",
+                        "background-surface": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem", 
+                        "lg": "0.75rem", 
+                        "xl": "1rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>CoolPath | Tree Canopy Analysis</title>
+</head>
+<body class="bg-background-light font-display text-slate-900 antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Top Navigation Bar (Standardized with Glassmorphism) -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 bg-white/70 backdrop-blur-md px-6 py-3 sticky top-0 z-50 lg:px-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">forest</span>
+</div>
+<h2 class="text-slate-900 text-lg font-bold leading-tight tracking-tight">CoolPath</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 border border-slate-200">
+<div class="text-slate-400 flex items-center justify-center pl-4" data-icon="search">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:outline-0 focus:ring-0 h-full placeholder:text-slate-400 px-4 text-sm font-normal" placeholder="Search areas..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-4 lg:gap-8 items-center">
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-slate-600 hover:text-primary text-sm font-semibold transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 hover:text-primary text-sm font-semibold transition-colors" href="#">Temperature Map</a>
+<a class="text-primary text-sm font-bold leading-normal relative py-1 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary" href="#">Tree Canopy</a>
+<a class="text-slate-600 hover:text-primary text-sm font-semibold transition-colors" href="#">CoolPath Router</a>
+<a class="text-slate-600 hover:text-primary text-sm font-semibold transition-colors" href="#">Messaging</a>
+</nav>
+<div class="h-6 w-px bg-slate-200 hidden lg:block"></div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 border border-slate-200 text-slate-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 border border-slate-200 text-slate-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="bg-slate-200 border border-slate-300 aspect-square rounded-full size-10 overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfF7VJ2xVkX6caKl5aK_jjFTGgOweaBmxjso2fpWpqKbmV32lcPASPNwZl56n8wE3-Xp2-B3iNDxNVb05-sURXDkiuDNy2QDgkiwgbqgDqLRizjlyXZgNQizPnpxmkwcHJ51KWEb_sRPqTq4VbhoSNRnrVO4VVZInRdMvmWHRswoP67Y8-9uKtkC9aVGoYWT8kXr082JYrObSOCLokxl6HDWAqnaMn7VqR7lCQYhnO8MPezkmddAU46CMcYPaBV4WpsKzAP6MAZrxg"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 flex-col h-full overflow-hidden">
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-h-0">
+<!-- Content Header -->
+<div class="px-6 py-8 lg:px-10 border-b border-slate-200 bg-background-surface flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<nav class="flex items-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2">
+<span>HOME</span>
+<span class="material-symbols-outlined text-[10px]">arrow_forward_ios</span>
+<span class="text-primary">TREE CANOPY ANALYSIS</span>
+</nav>
+<h1 class="text-slate-900 text-3xl font-black leading-tight tracking-tight">Tree Canopy Analysis</h1>
+<p class="text-slate-500 text-sm mt-1">Satellite NDVI visualization for vegetation health and urban shade optimization.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 bg-white border border-slate-300 px-4 py-2 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-lg">download</span>
+                        Export PDF
+                    </button>
+<button class="flex items-center gap-2 bg-primary px-4 py-2 rounded-lg text-white text-sm font-bold shadow-lg shadow-primary/20 hover:brightness-110 transition-all">
+<span class="material-symbols-outlined text-lg">layers</span>
+                        Switch Layers
+                    </button>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="flex-1 overflow-y-auto p-6 lg:p-10">
+<div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+<!-- Interactive Map Container -->
+<div class="xl:col-span-3 flex flex-col gap-6">
+<div class="relative w-full h-[500px] lg:h-[650px] rounded-2xl overflow-hidden border border-slate-200 shadow-xl group">
+<!-- Map Placeholder -->
+<div class="absolute inset-0 bg-slate-200" data-location="Singapore Downtown">
+<img alt="Satellite map view" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6QJstphmQngxUHiBKz0ARaGFjvM608RrRR8tFn9rUuocjk5Nms3_aR1PQzHTWq-d_ywGKlqQGyEfR7UaOlkWHOxEFslQ8u-anrCZs0dwX7Xrn95GMF7h3F6n_OVMVT0WlREuTaK-oFarDVTk5jTzf1A_mVI9KSNv6DiP7xM1itfrExFURnaRTmnJfzpovhQDZ4rH53yaQ39dlp4VN9V3mNtVtqIwHnkzlxJd0lYj6_W_5ocV8_c8_7kpvNvQij9jfBVb3vzdexR2S"/>
+<!-- Mock UI Overlay -->
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+</div>
+<!-- Legend -->
+<div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md p-5 rounded-xl border border-slate-200 shadow-lg flex flex-col gap-3">
+<p class="text-[10px] font-bold uppercase text-slate-500 tracking-widest">NDVI Index Legend</p>
+<div class="flex flex-col gap-2.5">
+<div class="flex items-center gap-3">
+<div class="h-3 w-8 bg-[#10b77f] rounded-full"></div>
+<span class="text-xs font-semibold text-slate-700">Dense (&gt;0.4)</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="h-3 w-8 bg-yellow-400 rounded-full"></div>
+<span class="text-xs font-semibold text-slate-700">Moderate (0.2-0.4)</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="h-3 w-8 bg-orange-500 rounded-full"></div>
+<span class="text-xs font-semibold text-slate-700">Exposed (&lt;0.2)</span>
+</div>
+</div>
+</div>
+<!-- Map Controls -->
+<div class="absolute top-6 right-6 flex flex-col gap-2">
+<button class="bg-white/90 backdrop-blur-md p-2 rounded-lg border border-slate-200 text-slate-700 hover:text-primary transition-colors shadow-md">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="bg-white/90 backdrop-blur-md p-2 rounded-lg border border-slate-200 text-slate-700 hover:text-primary transition-colors shadow-md">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="bg-white/90 backdrop-blur-md p-2 mt-2 rounded-lg border border-slate-200 text-slate-700 hover:text-primary transition-colors shadow-md">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+<!-- Search Field on Map -->
+<div class="absolute top-6 left-6 w-72">
+<div class="flex items-center bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl px-4 py-2.5 shadow-lg">
+<span class="material-symbols-outlined text-primary mr-2">search</span>
+<input class="bg-transparent border-none text-sm text-slate-900 focus:ring-0 placeholder-slate-400 w-full" placeholder="Locate specific trees..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Layer Selection -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<button class="p-4 bg-primary/10 border-2 border-primary rounded-xl flex items-center gap-3 text-primary transition-all">
+<span class="material-symbols-outlined">eco</span>
+<span class="text-sm font-bold">NDVI Density</span>
+</button>
+<button class="p-4 bg-white border border-slate-200 rounded-xl flex items-center gap-3 text-slate-500 hover:border-primary/40 hover:text-primary transition-all shadow-sm">
+<span class="material-symbols-outlined">wb_sunny</span>
+<span class="text-sm font-bold">Heat Index</span>
+</button>
+<button class="p-4 bg-white border border-slate-200 rounded-xl flex items-center gap-3 text-slate-500 hover:border-primary/40 hover:text-primary transition-all shadow-sm">
+<span class="material-symbols-outlined">opacity</span>
+<span class="text-sm font-bold">Soil Moisture</span>
+</button>
+<button class="p-4 bg-white border border-slate-200 rounded-xl flex items-center gap-3 text-slate-500 hover:border-primary/40 hover:text-primary transition-all shadow-sm">
+<span class="material-symbols-outlined">cloud</span>
+<span class="text-sm font-bold">CO2 Capture</span>
+</button>
+</div>
+</div>
+<!-- Stats Panel -->
+<div class="flex flex-col gap-6">
+<!-- Key Performance Card -->
+<div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="font-bold text-slate-500 uppercase text-[10px] tracking-widest">Canopy Stats</h3>
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+<div class="flex flex-col gap-5">
+<div class="flex flex-col gap-1">
+<span class="text-slate-400 text-xs font-semibold">Max NDVI Value</span>
+<div class="flex items-end gap-2">
+<span class="text-3xl font-black text-slate-900">0.82</span>
+<span class="text-xs text-secondary mb-1 font-bold">+4% vs Prev Mo.</span>
+</div>
+</div>
+<div class="h-px w-full bg-slate-100"></div>
+<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="text-slate-600">Dense Canopy</span>
+<span class="text-secondary">42.5%</span>
+</div>
+<div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[42.5%] rounded-full"></div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="text-slate-600">Moderate</span>
+<span class="text-yellow-500">31.2%</span>
+</div>
+<div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+<div class="bg-yellow-400 h-full w-[31.2%] rounded-full"></div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="text-slate-600">Exposed</span>
+<span class="text-orange-500">26.3%</span>
+</div>
+<div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+<div class="bg-orange-500 h-full w-[26.3%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 text-sm font-bold transition-all">
+                                Detailed Breakdown
+                            </button>
+</div>
+<!-- Shade Analysis Card -->
+<div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+<div class="flex items-center gap-2 mb-5">
+<span class="material-symbols-outlined text-primary">umbrella</span>
+<h3 class="font-bold text-slate-500 uppercase text-[10px] tracking-widest">Shade Quality</h3>
+</div>
+<div class="flex flex-col gap-5">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">park</span>
+</div>
+<div>
+<p class="text-2xl font-black text-slate-900">2.4k</p>
+<p class="text-[10px] text-slate-400 uppercase font-bold">High-Shade Trees</p>
+</div>
+</div>
+<div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+<p class="text-xs text-slate-600 leading-relaxed">Shade coverage in high-traffic zones has improved by <span class="text-secondary font-bold">12%</span> this year due to the heritage tree program.</p>
+</div>
+</div>
+</div>
+<!-- Recent Tree Additions -->
+<div class="flex flex-col gap-3">
+<h3 class="font-bold text-slate-400 uppercase text-[10px] tracking-widest px-1">New Registrations</h3>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3.5 bg-white border border-slate-200 rounded-xl shadow-sm">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-lg bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-base">nature_people</span>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-800">Rain Tree #1042</p>
+<p class="text-[10px] text-slate-400 font-medium">Sector A - 2m ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+</div>
+<div class="flex items-center justify-between p-3.5 bg-white border border-slate-200 rounded-xl shadow-sm opacity-70">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-lg bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-base">nature_people</span>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-800">Angsana #882</p>
+<p class="text-[10px] text-slate-400 font-medium">Sector C - 1h ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+</div>
+</div>
+</div>
+<!-- Alerts (Moved from Sidebar) -->
+<div class="bg-orange-50 rounded-xl p-4 border border-orange-100 mt-auto">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-orange-600 text-sm">warning</span>
+<p class="text-[10px] text-orange-700 font-black uppercase tracking-wider">Health Alert</p>
+</div>
+<p class="text-xs text-orange-800 leading-relaxed font-medium">Low canopy density detected in Sector 7. Irrigation required to maintain vegetation health.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

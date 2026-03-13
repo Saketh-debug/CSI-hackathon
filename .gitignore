@@ -1,0 +1,99 @@
+# ----------------------------
+# OS / Editor
+# ----------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ----------------------------
+# Logs
+# ----------------------------
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ----------------------------
+# Node / Frontend
+# ----------------------------
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/.vite/
+coverage/
+.eslintcache
+
+# ----------------------------
+# Python
+# ----------------------------
+**/__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+
+# Virtual environments
+venv/
+.venv/
+env/
+**/venv/
+**/.venv/
+**/env/
+
+# ----------------------------
+# Secrets / Local env
+# ----------------------------
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+**/gee-credentials.json
+*.pem
+*.key
+
+# ----------------------------
+# Streamlit/FastAPI generated data
+# ----------------------------
+streamlit-demo/data/*.json
+streamlit-demo/data/*.png
+streamlit-demo/data/*.graphml
+streamlit-demo/cache/
+streamlit-demo/models/*.pkl
+streamlit-demo/.streamlit/
+
+# ----------------------------
+# map venv generated data
+# ----------------------------
+map venv/data/*.json
+map venv/data/*.png
+map venv/data/*.graphml
+map venv/cache/
+map venv/models/*.pkl
+map venv/.streamlit/
+
+# ----------------------------
+# Test / tooling outputs
+# ----------------------------
+playwright-report/
+test-results/
+tmp/
+temp/
