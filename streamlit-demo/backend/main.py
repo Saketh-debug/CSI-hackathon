@@ -91,6 +91,7 @@ class RouteRequest(BaseModel):
 class ChatRequest(BaseModel):
     message: str
     history: List[dict] = []   # [{"role": "user"|"assistant", "content": "..."}]
+    language: Optional[str] = "English"
 
 class SingleMessageRequest(BaseModel):
     phone: str
@@ -483,12 +484,31 @@ async def chat_endpoint(req: ChatRequest):
     )
 
     # ── 4. Build full system message ───────────────────────
+    lang_directive = ""
+    headings = ""
+    if req.language is not None and req.language.lower() != "english":
+        lang_lower = req.language.lower()
+        if lang_lower == "telugu":
+            headings = "\nUse these exact headings literally: 'సమాధానం' instead of 'Answer', 'వివరాలు' instead of 'Details', 'సూచనలు' instead of 'Suggestions'."
+        elif lang_lower == "hindi":
+            headings = "\nUse these exact headings literally: 'उत्तर' instead of 'Answer', 'विवरण' instead of 'Details', 'सुझाव' instead of 'Suggestions'."
+
+        lang_directive = f"""
+
+=========================================
+CRITICAL OVERRIDE - LANGUAGE INSTRUCTION:
+No matter what language the user writes in, and no matter what previous instructions say, you MUST output your ENTIRE response exclusively in the {req.language} language using its native script.
+Do NOT reply in English. Do NOT provide English translations alongside the {req.language} text. {headings}
+=========================================
+"""
+
     full_system = (
         system_prompt
         + "\n\n---\n"
         + "## Platform Knowledge\n"
         + WEBSITE_KNOWLEDGE
         + live_data_section
+        + lang_directive
     )
 
     # ── 5. Build Ollama messages list ──────────────────────

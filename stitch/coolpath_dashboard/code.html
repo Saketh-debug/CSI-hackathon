@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CoolPath Dashboard</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CoolPath Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -33,251 +38,290 @@
             },
         }
     </script>
-<style>
+    <style>
         .glass {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(13, 162, 231, 0.1);
         }
+
         .glass-nav {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(13, 162, 231, 0.15);
         }
+
         .map-gradient {
             background: linear-gradient(to right, #0ea5e9, #10b77f, #f43f5e);
         }
     </style>
 </head>
+
 <body class="bg-background-light font-display text-slate-700 min-h-screen overflow-x-hidden">
-<!-- Floating Top Navigation -->
-<nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl">
-<div class="glass-nav rounded-2xl px-8 py-4 flex items-center justify-between shadow-xl shadow-slate-200/50">
-<!-- Logo -->
-<div class="flex items-center gap-3">
-<div class="bg-primary/10 p-2 rounded-lg">
-<span class="material-symbols-outlined text-primary text-2xl">ac_unit</span>
-</div>
-<h1 class="text-xl font-bold tracking-tight text-slate-900 uppercase italic">CoolPath</h1>
-</div>
-<!-- Center Links -->
-<div class="hidden lg:flex items-center gap-6">
-<a class="text-primary font-semibold text-sm transition-colors" href="#">Dashboard</a>
-<a class="text-slate-500 hover:text-primary text-sm font-medium transition-colors" href="#">Temperature Map</a>
-<a class="text-slate-500 hover:text-primary text-sm font-medium transition-colors" href="#">Tree Canopy</a>
-<a class="text-slate-500 hover:text-primary text-sm font-medium transition-colors" href="#">CoolPath Router</a>
-<a class="text-slate-500 hover:text-primary text-sm font-medium transition-colors" href="#">Messaging</a>
-</div>
-<!-- Right Profile & Notifications -->
-<div class="flex items-center gap-4">
-<button class="relative text-slate-400 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-<span class="absolute top-0 right-0 flex h-2 w-2">
-<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-</span>
-</button>
-<div class="h-9 w-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center overflow-hidden">
-<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-ANEBe3OS4OXPcR9htwRGrRcMGV1jnmSkmKjVD6H6WjrfGYRVRnBTRf64jH2L5VGDFMaNaD3CjtcPT3uvLfnnjFwy3o2Ov6opA2Umr_rSitLEAgEHTx0MOz0OnFZKSfrG1We8UvRpRXwkVVPiuOCrQ9U7S6RtqunOsDSzOVEorp9Wzw88fvUzHdtHfScny5kllGNRd_S7GyJC15xlF0PvDzdthGgJOs1pnx2UBDFWbEiJm12FAFxxeNQ-jG1EePp8W1EjzmbWpQcx"/>
-</div>
-</div>
-</div>
-</nav>
-<main class="pt-32 pb-12 px-6 lg:px-12 max-w-[1600px] mx-auto space-y-8">
-<!-- Stats Row -->
-<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-<!-- Avg Temp -->
-<div class="glass p-5 rounded-2xl flex flex-col justify-between group hover:border-primary/50 transition-all shadow-sm">
-<div class="flex justify-between items-start mb-4">
-<div class="bg-primary/10 p-2 rounded-lg">
-<span class="material-symbols-outlined text-primary">thermostat</span>
-</div>
-<span class="text-rose-500 text-xs font-bold flex items-center bg-rose-50 px-2 py-1 rounded-full">-2.4%</span>
-</div>
-<div>
-<p class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">Avg Temperature</p>
-<p class="text-3xl font-bold text-slate-900">78.2°F</p>
-</div>
-</div>
-<!-- Hottest/Coolest -->
-<div class="glass p-5 rounded-2xl flex flex-col justify-between group hover:border-primary/50 transition-all shadow-sm">
-<div class="flex justify-between items-start mb-4">
-<div class="bg-amber-500/10 p-2 rounded-lg">
-<span class="material-symbols-outlined text-amber-500">wb_sunny</span>
-</div>
-<span class="text-secondary text-xs font-bold flex items-center bg-secondary/10 px-2 py-1 rounded-full">+1.1%</span>
-</div>
-<div>
-<p class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">Max / Min Zone</p>
-<p class="text-3xl font-bold text-slate-900">92° / 64°</p>
-</div>
-</div>
-<!-- Canopy % -->
-<div class="glass p-5 rounded-2xl flex flex-col justify-between group hover:border-primary/50 transition-all shadow-sm">
-<div class="flex justify-between items-start mb-4">
-<div class="bg-secondary/10 p-2 rounded-lg">
-<span class="material-symbols-outlined text-secondary">park</span>
-</div>
-<span class="text-secondary text-xs font-bold flex items-center bg-secondary/10 px-2 py-1 rounded-full">+5.2%</span>
-</div>
-<div>
-<p class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">Tree Canopy</p>
-<p class="text-3xl font-bold text-slate-900">34.8%</p>
-</div>
-</div>
-<!-- Exposed Area -->
-<div class="glass p-5 rounded-2xl flex flex-col justify-between group hover:border-primary/50 transition-all shadow-sm">
-<div class="flex justify-between items-start mb-4">
-<div class="bg-rose-500/10 p-2 rounded-lg">
-<span class="material-symbols-outlined text-rose-500">grid_guides</span>
-</div>
-<span class="text-rose-500 text-xs font-bold flex items-center bg-rose-50 px-2 py-1 rounded-full">-3.1%</span>
-</div>
-<div>
-<p class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">Exposed Area</p>
-<p class="text-3xl font-bold text-slate-900">42.1%</p>
-</div>
-</div>
-<!-- Shade Coverage -->
-<div class="glass p-5 rounded-2xl flex flex-col justify-between group hover:border-primary/50 transition-all shadow-sm">
-<div class="flex justify-between items-start mb-4">
-<div class="bg-sky-500/10 p-2 rounded-lg">
-<span class="material-symbols-outlined text-sky-500">umbrella</span>
-</div>
-<span class="text-secondary text-xs font-bold flex items-center bg-secondary/10 px-2 py-1 rounded-full">+4.0%</span>
-</div>
-<div>
-<p class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">Shade Coverage</p>
-<p class="text-3xl font-bold text-slate-900">57.9%</p>
-</div>
-</div>
-</div>
-<!-- Main Content Area -->
-<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-<!-- Sidebar Controls -->
-<div class="lg:col-span-1 space-y-6">
-<div class="glass p-6 rounded-2xl shadow-sm">
-<h3 class="text-slate-900 font-bold mb-4 flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-sm">layers</span>
-                    Map Toggles
-                </h3>
-<div class="space-y-3">
-<button class="w-full flex items-center justify-between p-3 rounded-xl bg-primary text-white text-sm font-semibold transition-all">
-<span class="flex items-center gap-3">
-<span class="material-symbols-outlined text-sm">local_fire_department</span>
-                            Heatmap
-                        </span>
-<span class="material-symbols-outlined text-xs">check_circle</span>
-</button>
-<button class="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 text-slate-600 text-sm font-medium transition-all border border-slate-200">
-<span class="flex items-center gap-3">
-<span class="material-symbols-outlined text-sm text-secondary">forest</span>
-                            Tree Canopy
-                        </span>
-</button>
-<button class="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 text-slate-600 text-sm font-medium transition-all border border-slate-200">
-<span class="flex items-center gap-3">
-<span class="material-symbols-outlined text-sm text-primary">route</span>
-                            Coolest Path
-                        </span>
-</button>
-<button class="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 text-slate-600 text-sm font-medium transition-all border border-slate-200">
-<span class="flex items-center gap-3">
-<span class="material-symbols-outlined text-sm text-primary">stacked_line_chart</span>
-                            Combined View
-                        </span>
-</button>
-</div>
-</div>
-<div class="glass p-6 rounded-2xl shadow-sm">
-<h3 class="text-slate-900 font-bold mb-4 flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-sm">rocket_launch</span>
-                    Quick Actions
-                </h3>
-<div class="space-y-3">
-<button class="w-full bg-slate-50 hover:bg-primary hover:text-white transition-all p-4 rounded-xl text-left border border-slate-100 group">
-<p class="font-bold text-sm text-slate-900 group-hover:text-white">Heatmap Analysis</p>
-<p class="text-xs text-slate-500 group-hover:text-white/80">Detailed urban heat data</p>
-</button>
-<button class="w-full bg-slate-50 hover:bg-primary hover:text-white transition-all p-4 rounded-xl text-left border border-slate-100 group">
-<p class="font-bold text-sm text-slate-900 group-hover:text-white">Canopy Strategy</p>
-<p class="text-xs text-slate-500 group-hover:text-white/80">Planning new tree sites</p>
-</button>
-<button class="w-full bg-slate-50 hover:bg-primary hover:text-white transition-all p-4 rounded-xl text-left border border-slate-100 group">
-<p class="font-bold text-sm text-slate-900 group-hover:text-white">Open Router</p>
-<p class="text-xs text-slate-500 group-hover:text-white/80">Configure smart routing</p>
-</button>
-</div>
-</div>
-</div>
-<!-- Map Container -->
-<div class="lg:col-span-3 relative">
-<div class="glass rounded-3xl overflow-hidden h-[600px] border border-primary/10 relative shadow-inner">
-<!-- Map Background -->
-<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAcNUHCCdeS25WWEGGiXyWAaTFSRWYmSv9ryRPY8xvAQeiIT56skTcjpQxz0KG5K-dZ1oCjowLAeegp8YJ2dh2SA813ul08D8kKmg5RkwMZB1s-DuqmNyPVCKUP7UGJqIRPGeAXM_m4VWjmZQO38O1aw3IylXlgLWxwrDGC-9MGFPMREFSY8mULKW33XYwCRDZW3Hl1vWJpx-ienH2nUogKSIrqBNyPmu1VK2ha5bi9x6jQc3CD9QrmrDWBTStBBweomFLjgbiLgzNA')">
-<!-- Subtle Light Overlay for map readability -->
-<div class="absolute inset-0 bg-white/20"></div>
-</div>
-<!-- Map Search -->
-<div class="absolute top-6 left-6 z-10">
-<div class="glass p-2 rounded-xl flex items-center gap-3 shadow-lg">
-<div class="bg-primary/10 p-2 rounded-lg">
-<span class="material-symbols-outlined text-primary">search</span>
-</div>
-<input class="bg-transparent border-none focus:ring-0 text-sm text-slate-700 placeholder:text-slate-400 w-48" placeholder="Search location..." type="text"/>
-</div>
-</div>
-<!-- Zoom Controls -->
-<div class="absolute top-6 right-6 z-10 flex flex-col gap-2">
-<button class="glass p-3 rounded-xl text-slate-700 hover:bg-primary hover:text-white transition-all shadow-md">
-<span class="material-symbols-outlined">add</span>
-</button>
-<button class="glass p-3 rounded-xl text-slate-700 hover:bg-primary hover:text-white transition-all shadow-md">
-<span class="material-symbols-outlined">remove</span>
-</button>
-<button class="glass p-3 rounded-xl text-slate-700 hover:bg-primary hover:text-white transition-all shadow-md mt-4">
-<span class="material-symbols-outlined">my_location</span>
-</button>
-</div>
-<!-- Legend -->
-<div class="absolute bottom-6 left-6 z-10 glass p-4 rounded-2xl w-64 border border-white/40 shadow-xl">
-<p class="text-[10px] font-bold text-slate-900 mb-3 flex items-center justify-between tracking-widest uppercase">
-                        Heat Intensity
-                        <span class="material-symbols-outlined text-sm text-slate-400">info</span>
-</p>
-<div class="h-2 w-full map-gradient rounded-full mb-2"></div>
-<div class="flex justify-between text-[10px] text-slate-500 font-bold">
-<span>60°F</span>
-<span class="text-secondary">OPTIMAL</span>
-<span>100°F</span>
-</div>
-</div>
-<!-- Active Route Indicator -->
-<div class="absolute bottom-6 right-6 z-10 glass p-4 rounded-2xl border border-white/40 shadow-xl">
-<div class="flex items-center gap-4">
-<div>
-<p class="text-[10px] text-slate-500 font-bold uppercase tracking-tight">Active Path</p>
-<p class="text-sm font-bold text-slate-900">Coolest Route</p>
-</div>
-<div class="h-10 w-10 bg-secondary rounded-full flex items-center justify-center shadow-lg shadow-secondary/20">
-<span class="material-symbols-outlined text-white">navigation</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- Footer -->
-<footer class="max-w-7xl mx-auto px-12 py-8 flex flex-col md:flex-row justify-between items-center text-slate-400 text-sm border-t border-slate-200">
-<div class="flex items-center gap-2 mb-4 md:mb-0">
-<span class="material-symbols-outlined text-primary/60 text-lg">verified</span>
-<span class="font-medium">All systems operational</span>
-</div>
-<div class="flex items-center gap-6">
-<a class="hover:text-primary transition-colors" href="#">Documentation</a>
-<a class="hover:text-primary transition-colors" href="#">API Reference</a>
-<a class="hover:text-primary transition-colors" href="#">Support</a>
-</div>
-</footer>
-</body></html>
+    <!-- Floating Top Navigation -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl">
+        <div class="glass-nav rounded-2xl px-8 py-4 flex items-center justify-between shadow-xl shadow-slate-200/50">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="bg-primary/10 p-2 rounded-lg">
+                    <span class="material-symbols-outlined text-primary text-2xl">ac_unit</span>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight text-slate-900 uppercase italic">CoolPath</h1>
+            </div>
+            <!-- Center Links -->
+            <div class="hidden lg:flex items-center gap-6">
+                <a class="text-primary font-semibold text-sm transition-colors" href="#">Dashboard</a>
+                <a class="text-slate-500 hover:text-primary text-sm font-medium transition-colors" href="#">Temperature
+                    Map</a>
+                <a class="text-slate-500 hover:text-primary text-sm font-medium transition-colors" href="#">Tree
+                    Canopy</a>
+                <a class="text-slate-500 hover:text-primary text-sm font-medium transition-colors" href="#">CoolPath
+                    Router</a>
+                <a class="text-slate-500 hover:text-primary text-sm font-medium transition-colors"
+                    href="#">Messaging</a>
+            </div>
+            <!-- Right Profile & Notifications -->
+            <div class="flex items-center gap-4">
+                <button class="relative text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-0 right-0 flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    </span>
+                </button>
+                <div
+                    class="h-9 w-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center overflow-hidden">
+                    <img alt="User Profile" class="w-full h-full object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-ANEBe3OS4OXPcR9htwRGrRcMGV1jnmSkmKjVD6H6WjrfGYRVRnBTRf64jH2L5VGDFMaNaD3CjtcPT3uvLfnnjFwy3o2Ov6opA2Umr_rSitLEAgEHTx0MOz0OnFZKSfrG1We8UvRpRXwkVVPiuOCrQ9U7S6RtqunOsDSzOVEorp9Wzw88fvUzHdtHfScny5kllGNRd_S7GyJC15xlF0PvDzdthGgJOs1pnx2UBDFWbEiJm12FAFxxeNQ-jG1EePp8W1EjzmbWpQcx" />
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main class="pt-32 pb-12 px-6 lg:px-12 max-w-[1600px] mx-auto space-y-8">
+        <!-- Stats Row -->
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <!-- Avg Temp -->
+            <div
+                class="glass p-5 rounded-2xl flex flex-col justify-between group hover:border-primary/50 transition-all shadow-sm">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="bg-primary/10 p-2 rounded-lg">
+                        <span class="material-symbols-outlined text-primary">thermostat</span>
+                    </div>
+                    <span
+                        class="text-rose-500 text-xs font-bold flex items-center bg-rose-50 px-2 py-1 rounded-full">-2.4%</span>
+                </div>
+                <div>
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">Avg Temperature</p>
+                    <p class="text-3xl font-bold text-slate-900">78.2°F</p>
+                </div>
+            </div>
+            <!-- Hottest/Coolest -->
+            <div
+                class="glass p-5 rounded-2xl flex flex-col justify-between group hover:border-primary/50 transition-all shadow-sm">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="bg-amber-500/10 p-2 rounded-lg">
+                        <span class="material-symbols-outlined text-amber-500">wb_sunny</span>
+                    </div>
+                    <span
+                        class="text-secondary text-xs font-bold flex items-center bg-secondary/10 px-2 py-1 rounded-full">+1.1%</span>
+                </div>
+                <div>
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">Max / Min Zone</p>
+                    <p class="text-3xl font-bold text-slate-900">92° / 64°</p>
+                </div>
+            </div>
+            <!-- Canopy % -->
+            <div
+                class="glass p-5 rounded-2xl flex flex-col justify-between group hover:border-primary/50 transition-all shadow-sm">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="bg-secondary/10 p-2 rounded-lg">
+                        <span class="material-symbols-outlined text-secondary">park</span>
+                    </div>
+                    <span
+                        class="text-secondary text-xs font-bold flex items-center bg-secondary/10 px-2 py-1 rounded-full">+5.2%</span>
+                </div>
+                <div>
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">Tree Canopy</p>
+                    <p class="text-3xl font-bold text-slate-900">34.8%</p>
+                </div>
+            </div>
+            <!-- Exposed Area -->
+            <div
+                class="glass p-5 rounded-2xl flex flex-col justify-between group hover:border-primary/50 transition-all shadow-sm">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="bg-rose-500/10 p-2 rounded-lg">
+                        <span class="material-symbols-outlined text-rose-500">grid_guides</span>
+                    </div>
+                    <span
+                        class="text-rose-500 text-xs font-bold flex items-center bg-rose-50 px-2 py-1 rounded-full">-3.1%</span>
+                </div>
+                <div>
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">Exposed Area</p>
+                    <p class="text-3xl font-bold text-slate-900">42.1%</p>
+                </div>
+            </div>
+            <!-- Shade Coverage -->
+            <div
+                class="glass p-5 rounded-2xl flex flex-col justify-between group hover:border-primary/50 transition-all shadow-sm">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="bg-sky-500/10 p-2 rounded-lg">
+                        <span class="material-symbols-outlined text-sky-500">umbrella</span>
+                    </div>
+                    <span
+                        class="text-secondary text-xs font-bold flex items-center bg-secondary/10 px-2 py-1 rounded-full">+4.0%</span>
+                </div>
+                <div>
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">Shade Coverage</p>
+                    <p class="text-3xl font-bold text-slate-900">57.9%</p>
+                </div>
+            </div>
+        </div>
+        <!-- Main Content Area -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Sidebar Controls -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="glass p-6 rounded-2xl shadow-sm">
+                    <h3 class="text-slate-900 font-bold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-sm">layers</span>
+                        Map Toggles
+                    </h3>
+                    <div class="space-y-3">
+                        <button
+                            class="w-full flex items-center justify-between p-3 rounded-xl bg-primary text-white text-sm font-semibold transition-all">
+                            <span class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-sm">local_fire_department</span>
+                                Heatmap
+                            </span>
+                            <span class="material-symbols-outlined text-xs">check_circle</span>
+                        </button>
+                        <button
+                            class="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 text-slate-600 text-sm font-medium transition-all border border-slate-200">
+                            <span class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-sm text-secondary">forest</span>
+                                Tree Canopy
+                            </span>
+                        </button>
+                        <button
+                            class="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 text-slate-600 text-sm font-medium transition-all border border-slate-200">
+                            <span class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-sm text-primary">route</span>
+                                Coolest Path
+                            </span>
+                        </button>
+                        <button
+                            class="w-full flex items-center justify-between p-3 rounded-xl bg-white hover:bg-slate-50 text-slate-600 text-sm font-medium transition-all border border-slate-200">
+                            <span class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-sm text-primary">stacked_line_chart</span>
+                                Combined View
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="glass p-6 rounded-2xl shadow-sm">
+                    <h3 class="text-slate-900 font-bold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-sm">rocket_launch</span>
+                        Quick Actions
+                    </h3>
+                    <div class="space-y-3">
+                        <button
+                            class="w-full bg-slate-50 hover:bg-primary hover:text-white transition-all p-4 rounded-xl text-left border border-slate-100 group">
+                            <p class="font-bold text-sm text-slate-900 group-hover:text-white">Heatmap Analysis</p>
+                            <p class="text-xs text-slate-500 group-hover:text-white/80">Detailed urban heat data</p>
+                        </button>
+                        <button
+                            class="w-full bg-slate-50 hover:bg-primary hover:text-white transition-all p-4 rounded-xl text-left border border-slate-100 group">
+                            <p class="font-bold text-sm text-slate-900 group-hover:text-white">Canopy Strategy</p>
+                            <p class="text-xs text-slate-500 group-hover:text-white/80">Planning new tree sites</p>
+                        </button>
+                        <button
+                            class="w-full bg-slate-50 hover:bg-primary hover:text-white transition-all p-4 rounded-xl text-left border border-slate-100 group">
+                            <p class="font-bold text-sm text-slate-900 group-hover:text-white">Open Router</p>
+                            <p class="text-xs text-slate-500 group-hover:text-white/80">Configure smart routing</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Map Container -->
+            <div class="lg:col-span-3 relative">
+                <div class="glass rounded-3xl overflow-hidden h-[600px] border border-primary/10 relative shadow-inner">
+                    <!-- Map Background -->
+                    <div class="absolute inset-0 bg-cover bg-center"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAcNUHCCdeS25WWEGGiXyWAaTFSRWYmSv9ryRPY8xvAQeiIT56skTcjpQxz0KG5K-dZ1oCjowLAeegp8YJ2dh2SA813ul08D8kKmg5RkwMZB1s-DuqmNyPVCKUP7UGJqIRPGeAXM_m4VWjmZQO38O1aw3IylXlgLWxwrDGC-9MGFPMREFSY8mULKW33XYwCRDZW3Hl1vWJpx-ienH2nUogKSIrqBNyPmu1VK2ha5bi9x6jQc3CD9QrmrDWBTStBBweomFLjgbiLgzNA')">
+                        <!-- Subtle Light Overlay for map readability -->
+                        <div class="absolute inset-0 bg-white/20"></div>
+                    </div>
+                    <!-- Map Search -->
+                    <div class="absolute top-6 left-6 z-10">
+                        <div class="glass p-2 rounded-xl flex items-center gap-3 shadow-lg">
+                            <div class="bg-primary/10 p-2 rounded-lg">
+                                <span class="material-symbols-outlined text-primary">search</span>
+                            </div>
+                            <input
+                                class="bg-transparent border-none focus:ring-0 text-sm text-slate-700 placeholder:text-slate-400 w-48"
+                                placeholder="Search location..." type="text" />
+                        </div>
+                    </div>
+                    <!-- Zoom Controls -->
+                    <div class="absolute top-6 right-6 z-10 flex flex-col gap-2">
+                        <button
+                            class="glass p-3 rounded-xl text-slate-700 hover:bg-primary hover:text-white transition-all shadow-md">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+                        <button
+                            class="glass p-3 rounded-xl text-slate-700 hover:bg-primary hover:text-white transition-all shadow-md">
+                            <span class="material-symbols-outlined">remove</span>
+                        </button>
+                        <button
+                            class="glass p-3 rounded-xl text-slate-700 hover:bg-primary hover:text-white transition-all shadow-md mt-4">
+                            <span class="material-symbols-outlined">my_location</span>
+                        </button>
+                    </div>
+                    <!-- Legend -->
+                    <div
+                        class="absolute bottom-6 left-6 z-10 glass p-4 rounded-2xl w-64 border border-white/40 shadow-xl">
+                        <p
+                            class="text-[10px] font-bold text-slate-900 mb-3 flex items-center justify-between tracking-widest uppercase">
+                            Heat Intensity
+                            <span class="material-symbols-outlined text-sm text-slate-400">info</span>
+                        </p>
+                        <div class="h-2 w-full map-gradient rounded-full mb-2"></div>
+                        <div class="flex justify-between text-[10px] text-slate-500 font-bold">
+                            <span>60°F</span>
+                            <span class="text-secondary">OPTIMAL</span>
+                            <span>100°F</span>
+                        </div>
+                    </div>
+                    <!-- Active Route Indicator -->
+                    <div class="absolute bottom-6 right-6 z-10 glass p-4 rounded-2xl border border-white/40 shadow-xl">
+                        <div class="flex items-center gap-4">
+                            <div>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tight">Active Path</p>
+                                <p class="text-sm font-bold text-slate-900">Coolest Route</p>
+                            </div>
+                            <div
+                                class="h-10 w-10 bg-secondary rounded-full flex items-center justify-center shadow-lg shadow-secondary/20">
+                                <span class="material-symbols-outlined text-white">navigation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="max-w-7xl mx-auto px-12 py-8 flex flex-col md:flex-row justify-between items-center text-slate-400 text-sm border-t border-slate-200">
+        <div class="flex items-center gap-2 mb-4 md:mb-0">
+            <span class="material-symbols-outlined text-primary/60 text-lg">verified</span>
+            <span class="font-medium">All systems operational</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <a class="hover:text-primary transition-colors" href="#">Documentation</a>
+            <a class="hover:text-primary transition-colors" href="#">API Reference</a>
+            <a class="hover:text-primary transition-colors" href="#">Support</a>
+        </div>
+    </footer>
+</body>
+
+</html>

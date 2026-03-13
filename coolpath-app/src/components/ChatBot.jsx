@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-const API_BASE = 'http://localhost:8000'
+const API_BASE = ''
 
 // Simple markdown-lite renderer: bold **text**, newlines, bullet •
 function renderMarkdown(text) {
@@ -32,9 +32,10 @@ export default function ChatBot() {
     {
       role: 'assistant',
       content:
-        "Hi! I'm **EcoAssist** 🌿 — your AI guide for the CoolPath platform. Ask me about weather, tree canopy, cool routes, or anything about this platform!",
+        "Hi! I'm **EcoAssist** 🌿 — your AI guide for the CoolPath platform. Please select your preferred language to begin:",
     },
   ])
+  const [language, setLanguage] = useState(null)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -71,7 +72,7 @@ export default function ChatBot() {
       const res = await fetch(`${API_BASE}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, history }),
+        body: JSON.stringify({ message: text, history, language }),
       })
 
       if (!res.ok) {
@@ -284,6 +285,57 @@ export default function ChatBot() {
             </div>
           ))}
 
+          {/* Language Selection Buttons */}
+          {!language && messages.length === 1 && (
+            <div style={{ paddingLeft: '36px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {['English', 'Telugu', 'Hindi'].map(lang => (
+                <button
+                  key={lang}
+                  onClick={() => {
+                    setLanguage(lang)
+                    let responseMsg = `Great! I'll speak to you in ${lang}. You can now start asking your questions.`
+                    let userMsg = `I chose ${lang}`
+
+                    if (lang === 'Telugu') {
+                      responseMsg = 'బాగుంది! నేను మీతో తెలుగులో మాట్లాడతాను. ఇప్పుడు మీరు మీ ప్రశ్నలు అడగడం ప్రారంభించవచ్చు.'
+                      userMsg = 'నేను తెలుగుని ఎంచుకున్నాను'
+                    } else if (lang === 'Hindi') {
+                      responseMsg = 'बहुत बढ़िया! मैं आपसे हिंदी में बात करूंगा। अब आप अपने प्रश्न पूछना शुरू कर सकते हैं।'
+                      userMsg = 'मैंने हिंदी चुना'
+                    }
+
+                    setMessages(prev => [
+                      ...prev,
+                      { role: 'user', content: userMsg },
+                      { role: 'assistant', content: responseMsg }
+                    ])
+                  }}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '20px',
+                    border: '1.5px solid #16a34a',
+                    background: 'white',
+                    color: '#16a34a',
+                    fontSize: '13.5px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#f0fdf4'
+                    e.currentTarget.style.transform = 'scale(1.05)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'white'
+                    e.currentTarget.style.transform = 'scale(1)'
+                  }}
+                >
+                  {lang}
+                </button>
+              ))}
+            </div>
+          )}
+
           {/* Typing indicator */}
           {loading && (
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
@@ -365,7 +417,8 @@ export default function ChatBot() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask about weather, canopy, routes…"
+            disabled={!language}
+            placeholder={language ? "Ask about weather, canopy, routes…" : "Select a language first..."}
             rows={1}
             style={{
               flex: 1,
@@ -388,15 +441,15 @@ export default function ChatBot() {
           />
           <button
             onClick={sendMessage}
-            disabled={loading || !input.trim()}
+            disabled={loading || !input.trim() || !language}
             style={{
               width: '40px',
               height: '40px',
               borderRadius: '50%',
               border: 'none',
-              cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
+              cursor: loading || !input.trim() || !language ? 'not-allowed' : 'pointer',
               background:
-                loading || !input.trim()
+                loading || !input.trim() || !language
                   ? '#d1fae5'
                   : 'linear-gradient(135deg, #16a34a, #15803d)',
               display: 'flex',
@@ -407,7 +460,7 @@ export default function ChatBot() {
               transform: 'scale(1)',
             }}
             onMouseEnter={(e) => {
-              if (!loading && input.trim()) e.currentTarget.style.transform = 'scale(1.08)'
+              if (!loading && input.trim() && language) e.currentTarget.style.transform = 'scale(1.08)'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'scale(1)'
@@ -418,7 +471,7 @@ export default function ChatBot() {
               height="18"
               viewBox="0 0 24 24"
               fill="none"
-              stroke={loading || !input.trim() ? '#86efac' : 'white'}
+              stroke={loading || !input.trim() || !language ? '#86efac' : 'white'}
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"

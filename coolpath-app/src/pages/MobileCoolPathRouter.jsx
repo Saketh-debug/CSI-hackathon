@@ -35,19 +35,19 @@ function RouteFitter({ result }) {
 // ─────────────────────────────────────────────
 // Bottom-sheet panel heights (vh)
 // ─────────────────────────────────────────────
-const SHEET_PEEK   = '15vh'   // collapsed — just the drag handle + title
-const SHEET_HALF   = '55vh'   // half open
-const SHEET_FULL   = '88vh'   // fully open
+const SHEET_PEEK = '15vh'   // collapsed — just the drag handle + title
+const SHEET_HALF = '55vh'   // half open
+const SHEET_FULL = '88vh'   // fully open
 
 export default function MobileCoolPathRouter() {
-  const [origin, setOrigin]           = useState('Madhapur, Hyderabad')
+  const [origin, setOrigin] = useState('Madhapur, Hyderabad')
   const [destination, setDestination] = useState('Banjara Hills, Hyderabad')
   const [shadeWeight, setShadeWeight] = useState(0.5)
-  const [tempWeight, setTempWeight]   = useState(0.3)
-  const [maxDev, setMaxDev]           = useState(1.3)
+  const [tempWeight, setTempWeight] = useState(0.3)
+  const [maxDev, setMaxDev] = useState(1.3)
 
   const [activeLayer, setActiveLayer] = useState('heatmap')
-  const [mapStyle, setMapStyle]       = useState('osm')
+  const [mapStyle, setMapStyle] = useState('osm')
 
   // Bottom sheet state: 'peek' | 'half' | 'full'
   const [sheetState, setSheetState] = useState('half')
@@ -56,9 +56,9 @@ export default function MobileCoolPathRouter() {
   const { data: tempData } = useTemperatureData()
   const { data: ndviData } = useCanopyData()
 
-  const CENTER      = [17.4474, 78.3762]
-  const lstBounds   = tempData?.bounds  ?? [[17.0, 77.9], [17.9, 78.8]]
-  const ndviBounds  = ndviData?.bounds ?? [[17.0, 77.9], [17.9, 78.8]]
+  const CENTER = [17.4474, 78.3762]
+  const lstBounds = tempData?.bounds ?? [[17.0, 77.9], [17.9, 78.8]]
+  const ndviBounds = ndviData?.bounds ?? [[17.0, 77.9], [17.9, 78.8]]
 
   const fast = result?.fastest
   const cool = result?.coolest
@@ -82,22 +82,22 @@ export default function MobileCoolPathRouter() {
 
   const mapCenter = fast?.coords?.length
     ? [
-        (fast.coords[0][0] + fast.coords[fast.coords.length - 1][0]) / 2,
-        (fast.coords[0][1] + fast.coords[fast.coords.length - 1][1]) / 2,
-      ]
+      (fast.coords[0][0] + fast.coords[fast.coords.length - 1][0]) / 2,
+      (fast.coords[0][1] + fast.coords[fast.coords.length - 1][1]) / 2,
+    ]
     : CENTER
 
   // Cycle through sheet heights on handle tap
   function cycleSheet() {
     setSheetState(prev =>
       prev === 'peek' ? 'half' :
-      prev === 'half' ? 'full' : 'peek'
+        prev === 'half' ? 'full' : 'peek'
     )
   }
 
   // Sheet height map
   const sheetHeight = sheetState === 'peek' ? SHEET_PEEK :
-                      sheetState === 'half' ? SHEET_HALF : SHEET_FULL
+    sheetState === 'half' ? SHEET_HALF : SHEET_FULL
 
   return (
     <div style={{
@@ -471,8 +471,8 @@ export default function MobileCoolPathRouter() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {[
                 { label: '🌳 Shade importance', value: shadeWeight, set: setShadeWeight, min: 0, max: 1, step: 0.05, fmt: v => v.toFixed(2) },
-                { label: '🌡️ Temp avoidance',  value: tempWeight,  set: setTempWeight,  min: 0, max: 1, step: 0.05, fmt: v => v.toFixed(2) },
-                { label: '📐 Max deviation',   value: maxDev,      set: setMaxDev,      min: 1, max: 2, step: 0.1,  fmt: v => v.toFixed(1) + '×' },
+                { label: '🌡️ Temp avoidance', value: tempWeight, set: setTempWeight, min: 0, max: 1, step: 0.05, fmt: v => v.toFixed(2) },
+                { label: '📐 Max deviation', value: maxDev, set: setMaxDev, min: 1, max: 2, step: 0.1, fmt: v => v.toFixed(1) + '×' },
               ].map(({ label, value, set, min, max, step, fmt }) => (
                 <div key={label}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
@@ -589,8 +589,8 @@ export default function MobileCoolPathRouter() {
                   {result.routes_identical
                     ? <><span style={{ fontWeight: 700, color: '#10b77f' }}>Note:</span> Both routes are identical — the fastest path already has good shade coverage.</>
                     : <><span style={{ fontWeight: 700, color: '#10b77f' }}>CoolPath:</span> {cool.stats.shade_pct - fast.stats.shade_pct > 0
-                        ? `Gives ${(cool.stats.shade_pct - fast.stats.shade_pct).toFixed(0)}% more shade with only +${cool.deviation_pct}% extra distance.`
-                        : `Avoids hotter zones while staying close to the fastest path.`}</>
+                      ? `Gives ${(cool.stats.shade_pct - fast.stats.shade_pct).toFixed(0)}% more shade with only +${cool.deviation_pct}% extra distance.`
+                      : `Avoids hotter zones while staying close to the fastest path.`}</>
                   }
                 </p>
               </div>

@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
-const API_BASE = 'http://localhost:8000'
+const API_BASE = ''
 
 export default function Messaging() {
   // --- Section 1 State ---

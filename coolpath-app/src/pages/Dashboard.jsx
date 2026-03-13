@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { MapContainer, ImageOverlay, TileLayer } from 'react-leaflet'
 import { useSummaryData } from '../api/hooks'
@@ -28,6 +29,7 @@ function Skeleton() {
 }
 
 export default function Dashboard() {
+  const navigate = useNavigate()
   const [activeLayer, setActiveLayer] = useState('heatmap')
   const { data, loading, error } = useSummaryData()
 
@@ -158,11 +160,11 @@ export default function Dashboard() {
               </h3>
               <div className="space-y-3">
                 {[
-                  { label: 'Heatmap Analysis', desc: 'Detailed urban heat data' },
-                  { label: 'Canopy Strategy', desc: 'NDVI breakdown by zone' },
-                  { label: 'Open Router', desc: 'Plan a cool delivery route' },
-                ].map(({ label, desc }) => (
-                  <button key={label} className="w-full bg-slate-50 hover:bg-primary hover:text-white transition-all p-4 rounded-xl text-left border border-slate-100 group">
+                  { label: 'Heatmap Analysis', desc: 'Detailed urban heat data', path: '/heatmap' },
+                  { label: 'Canopy Strategy', desc: 'NDVI breakdown by zone', path: '/canopy' },
+                  { label: 'Open Router', desc: 'Plan a cool delivery route', path: '/router' },
+                ].map(({ label, desc, path }) => (
+                  <button key={label} onClick={() => navigate(path)} className="w-full bg-slate-50 hover:bg-primary hover:text-white transition-all p-4 rounded-xl text-left border border-slate-100 group">
                     <p className="font-bold text-sm text-slate-900 group-hover:text-white">{label}</p>
                     <p className="text-xs text-slate-500 group-hover:text-white/80">{desc}</p>
                   </button>

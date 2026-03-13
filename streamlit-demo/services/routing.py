@@ -163,7 +163,7 @@ def geocode_location(query):
     """Geocode using Nominatim, bounded to Hyderabad region."""
     from geopy.geocoders import Nominatim
 
-    geolocator = Nominatim(user_agent="coolpath-hyd-v3")
+    geolocator = Nominatim(user_agent="CoolPath-hyd-v3")
 
     for search in [f"{query}, Hyderabad, Telangana, India", query]:
         try:

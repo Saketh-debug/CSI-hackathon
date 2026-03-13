@@ -27,14 +27,14 @@ map fetcher/
 └── ui/
     ├── temp_map.py             ← Folium temperature heatmap
     ├── canopy_map.py           ← Folium NDVI overlay
-    └── coolpath_ui.py          ← Route comparison map + stats
+    └── CoolPath_ui.py          ← Route comparison map + stats
 ```
 
 ## Verification
 
 ### ✅ App runs successfully at `localhost:8502`
 
-![CoolPath Temperature Map](C:\Users\aruna\.gemini\antigravity\brain\f741aafe-d7e3-45ac-98ff-5861e9427548\coolpath_temp_map_1773329709719.png)
+![CoolPath Temperature Map](C:\Users\aruna\.gemini\antigravity\brain\f741aafe-d7e3-45ac-98ff-5861e9427548\CoolPath_temp_map_1773329709719.png)
 
 **Verified:**
 - ✅ All 3 tabs render correctly

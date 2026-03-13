@@ -17,7 +17,7 @@ export default function Home() {
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white shadow-lg shadow-primary/20">
               <span className="material-symbols-outlined font-bold">thermostat</span>
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900">CoolPath</span>
+            <span className="text-xl font-bold tracking-tight text-slate-900">Verdex</span>
           </div>
           <nav className="hidden md:flex items-center gap-8">
             <span
@@ -41,7 +41,7 @@ export default function Home() {
               onClick={() => navigate('/messaging')}
             >Messaging</span>
           </nav>
-          
+
         </div>
       </header>
 
@@ -66,10 +66,10 @@ export default function Home() {
               Live Thermal Intelligence
             </div>
             <h1 className="mb-8 text-5xl font-black leading-[1.1] tracking-tight text-slate-900 md:text-7xl lg:text-8xl">
-              CoolPath – <span className="text-primary">Thermal</span> Intelligence Platform
+              Verdex – <span className="text-primary">Thermal</span> Intelligence Platform
             </h1>
             <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-slate-600 md:text-xl">
-              Extreme localized urban heat creates severe health risks for outdoor workers and degrades city livability. CoolPath provides hyper-local thermal intelligence that helps businesses protect gig workers and city planners identify where cooling infrastructure and tree cover are needed most.
+              Extreme localized urban heat creates severe health risks for outdoor workers and degrades city livability. Verdex provides hyper-local thermal intelligence that helps businesses protect gig workers and city planners identify where cooling infrastructure and tree cover are needed most.
             </p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
               <button

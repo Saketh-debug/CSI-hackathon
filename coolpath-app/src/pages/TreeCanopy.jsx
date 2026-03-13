@@ -46,10 +46,7 @@ export default function TreeCanopy() {
               <p className="text-slate-500 text-sm mt-1">Satellite NDVI visualization for vegetation health and urban shade optimization.</p>
             </div>
             <div className="flex gap-3">
-              <button className="flex items-center gap-2 bg-primary px-4 py-2 rounded-lg text-white text-sm font-bold shadow-lg shadow-primary/20 hover:brightness-110 transition-all">
-                <span className="material-symbols-outlined text-lg">layers</span>
-                NDVI Layer
-              </button>
+              
             </div>
           </div>
 
@@ -140,24 +137,7 @@ export default function TreeCanopy() {
                 </div>
 
                 {/* Layer Selection */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <button className="p-4 bg-primary/10 border-2 border-primary rounded-xl flex items-center gap-3 text-primary transition-all">
-                    <span className="material-symbols-outlined">eco</span>
-                    <span className="text-sm font-bold">NDVI Density</span>
-                  </button>
-                  <button className="p-4 bg-white border border-slate-200 rounded-xl flex items-center gap-3 text-slate-400 cursor-not-allowed opacity-50 shadow-sm">
-                    <span className="material-symbols-outlined">wb_sunny</span>
-                    <span className="text-sm font-bold">Heat Index</span>
-                  </button>
-                  <button className="p-4 bg-white border border-slate-200 rounded-xl flex items-center gap-3 text-slate-400 cursor-not-allowed opacity-50 shadow-sm">
-                    <span className="material-symbols-outlined">opacity</span>
-                    <span className="text-sm font-bold">Soil Moisture</span>
-                  </button>
-                  <button className="p-4 bg-white border border-slate-200 rounded-xl flex items-center gap-3 text-slate-400 cursor-not-allowed opacity-50 shadow-sm">
-                    <span className="material-symbols-outlined">cloud</span>
-                    <span className="text-sm font-bold">CO₂ Capture</span>
-                  </button>
-                </div>
+                
               </div>
 
               {/* Stats Panel */}

@@ -25,7 +25,7 @@ export default function Navbar({ variant = 'default' }) {
             <div className="bg-primary/10 p-2 rounded-lg">
               <span className="material-symbols-outlined text-primary text-2xl">ac_unit</span>
             </div>
-            <h1 className="text-xl font-bold tracking-tight text-slate-900 uppercase italic">CoolPath</h1>
+            <h1 className="text-xl font-bold tracking-tight text-slate-900 uppercase italic">Verdex</h1>
           </div>
           {/* Center Links */}
           <div className="hidden lg:flex items-center gap-6">
@@ -61,7 +61,7 @@ export default function Navbar({ variant = 'default' }) {
           <div className="size-9 bg-primary/10 rounded-lg flex items-center justify-center">
             <span className="material-symbols-outlined text-primary font-bold">thermostat</span>
           </div>
-          <h2 className="text-slate-900 text-xl font-bold leading-tight tracking-tight">CoolPath</h2>
+          <h2 className="text-slate-900 text-xl font-bold leading-tight tracking-tight">Verdex</h2>
         </div>
       </div>
       <div className="flex flex-1 justify-end gap-4 lg:gap-8 items-center">

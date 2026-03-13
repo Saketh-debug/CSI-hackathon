@@ -7,51 +7,51 @@ import MapResizer from '../components/MapResizer'
 // Component to imperatively fit map bounds when a new route is calculated
 function RouteFitter({ result }) {
   const map = useMap()
-  
+
   useEffect(() => {
     if (result && result.fastest?.coords?.length) {
       const allCoords = [
         ...result.fastest.coords,
         ...(result.coolest && !result.routes_identical ? result.coolest.coords : [])
       ]
-      
+
       if (allCoords.length > 0) {
         // Calculate bounding box [ [minLat, minLon], [maxLat, maxLon] ]
         let minLat = Infinity, minLon = Infinity
         let maxLat = -Infinity, maxLon = -Infinity
-        
+
         allCoords.forEach(([lat, lon]) => {
           if (lat < minLat) minLat = lat
           if (lat > maxLat) maxLat = lat
           if (lon < minLon) minLon = lon
           if (lon > maxLon) maxLon = lon
         })
-        
+
         // Pad the bounds slightly and fit map
-        map.fitBounds([ [minLat, minLon], [maxLat, maxLon] ], { padding: [50, 50] })
+        map.fitBounds([[minLat, minLon], [maxLat, maxLon]], { padding: [50, 50] })
       }
     }
   }, [result, map])
-  
+
   return null
 }
 
 export default function CoolPathRouter() {
-  const [origin, setOrigin]           = useState('Madhapur, Hyderabad')
+  const [origin, setOrigin] = useState('Madhapur, Hyderabad')
   const [destination, setDestination] = useState('Banjara Hills, Hyderabad')
   const [shadeWeight, setShadeWeight] = useState(0.5)
-  const [tempWeight, setTempWeight]   = useState(0.3)
-  const [maxDev, setMaxDev]           = useState(1.3)
+  const [tempWeight, setTempWeight] = useState(0.3)
+  const [maxDev, setMaxDev] = useState(1.3)
 
   const [activeLayer, setActiveLayer] = useState('heatmap')  // 'heatmap' | 'canopy' | null
-  const [mapStyle, setMapStyle]       = useState('osm')      // 'osm' | 'satellite'
+  const [mapStyle, setMapStyle] = useState('osm')      // 'osm' | 'satellite'
 
   const { result, loading, error, compute } = useRoute()
   const { data: tempData } = useTemperatureData()
   const { data: ndviData } = useCanopyData()
 
   const CENTER = [17.4474, 78.3762]
-  const lstBounds  = tempData?.bounds ?? [[17.0, 77.9], [17.9, 78.8]]
+  const lstBounds = tempData?.bounds ?? [[17.0, 77.9], [17.9, 78.8]]
   const ndviBounds = ndviData?.bounds ?? [[17.0, 77.9], [17.9, 78.8]]
 
   const fast = result?.fastest
@@ -77,9 +77,9 @@ export default function CoolPathRouter() {
   // Map center: fit to route if available, else Hyderabad
   const mapCenter = fast?.coords?.length
     ? [
-        (fast.coords[0][0] + fast.coords[fast.coords.length - 1][0]) / 2,
-        (fast.coords[0][1] + fast.coords[fast.coords.length - 1][1]) / 2,
-      ]
+      (fast.coords[0][0] + fast.coords[fast.coords.length - 1][0]) / 2,
+      (fast.coords[0][1] + fast.coords[fast.coords.length - 1][1]) / 2,
+    ]
     : CENTER
 
   return (
@@ -318,7 +318,7 @@ export default function CoolPathRouter() {
           >
             <MapResizer />
             <RouteFitter result={result} />
-            
+
             {mapStyle === 'osm' ? (
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             ) : (
@@ -327,7 +327,7 @@ export default function CoolPathRouter() {
                 attribution="Esri"
               />
             )}
-            
+
             {/* LST overlay at 35% opacity */}
             {activeLayer === 'heatmap' && tempData?.image_url && (
               <ImageOverlay url={tempData.image_url} bounds={lstBounds} opacity={0.35} />

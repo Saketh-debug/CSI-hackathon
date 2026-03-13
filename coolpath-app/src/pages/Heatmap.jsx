@@ -228,14 +228,7 @@ export default function Heatmap() {
                       )}
                     </div>
                     <div className="flex gap-2">
-                      <div className="flex items-center gap-2 px-3 py-1 bg-primary/5 rounded-full border border-primary/10">
-                        <div className="size-2 rounded-full bg-primary" />
-                        <span className="text-primary text-[10px] font-bold uppercase tracking-wider">Air Temp</span>
-                      </div>
-                      <div className="flex items-center gap-2 px-3 py-1 bg-yellow-50 rounded-full border border-yellow-100">
-                        <div className="size-2 rounded-full bg-yellow-500" />
-                        <span className="text-yellow-700 text-[10px] font-bold uppercase tracking-wider">Feels Like</span>
-                      </div>
+
                     </div>
                   </div>
 
