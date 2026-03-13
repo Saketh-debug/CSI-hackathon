@@ -200,6 +200,29 @@ def route_distance(G, route):
     return total
 
 
+def route_duration_min(G, route):
+    """Estimated duration in minutes. Uses travel_time if available, else assumes 20 km/h."""
+    total_time_sec = 0
+    for i in range(len(route) - 1):
+        edge_data = G.get_edge_data(route[i], route[i + 1])
+        if edge_data:
+            best_time = float('inf')
+            for d in edge_data.values():
+                if 'travel_time' in d:
+                    try:
+                        t = float(d['travel_time'])
+                    except (ValueError, TypeError):
+                        t = d.get('length', 0) / 5.55
+                else:
+                    length = d.get('length', 0)
+                    t = length / 5.55  # 20 km/h = 20000m / 3600s = 5.55 m/s
+                if t < best_time:
+                    best_time = t
+            if best_time != float('inf'):
+                total_time_sec += best_time
+    return total_time_sec / 60
+
+
 def route_climate_stats(G, route, lst_data=None, ndvi_data=None):
     """Climate stats along a route."""
     from services.surface_temp import get_temp_at
@@ -250,6 +273,7 @@ def find_routes(G, origin_lat, origin_lon, dest_lat, dest_lon,
         return {"error": "No driveable path found between these two points. Try closer locations."}
 
     fast_dist = route_distance(G, fast_route)
+    fast_dur = route_duration_min(G, fast_route)
 
     # Coolest route (climate-weighted)
     try:
@@ -283,6 +307,8 @@ def find_routes(G, origin_lat, origin_lon, dest_lat, dest_lon,
             cool_route = fast_route
             cool_dist = fast_dist
 
+    cool_dur = route_duration_min(G, cool_route)
+
     routes_identical = (fast_route == cool_route)
     fast_stats = route_climate_stats(G, fast_route, lst_data, ndvi_data)
     cool_stats = route_climate_stats(G, cool_route, lst_data, ndvi_data)
@@ -293,6 +319,7 @@ def find_routes(G, origin_lat, origin_lon, dest_lat, dest_lon,
             "coords": route_coords(G, fast_route),
             "distance_m": round(fast_dist, 1),
             "distance_km": round(fast_dist / 1000, 2),
+            "duration_min": round(fast_dur),
             "stats": fast_stats,
         },
         "coolest": {
@@ -300,6 +327,7 @@ def find_routes(G, origin_lat, origin_lon, dest_lat, dest_lon,
             "coords": route_coords(G, cool_route),
             "distance_m": round(cool_dist, 1),
             "distance_km": round(cool_dist / 1000, 2),
+            "duration_min": round(cool_dur),
             "stats": cool_stats,
             "deviation_pct": round((cool_dist / fast_dist - 1) * 100, 1) if fast_dist > 0 else 0,
         },
@@ -314,6 +342,6 @@ if __name__ == "__main__":
     if "error" in result:
         print(f"Error: {result['error']}")
     else:
-        print(f"Fastest: {result['fastest']['distance_km']} km (shade {result['fastest']['stats']['shade_pct']}%)")
-        print(f"Coolest: {result['coolest']['distance_km']} km (shade {result['coolest']['stats']['shade_pct']}%)")
+        print(f"Fastest: {result['fastest']['distance_km']} km, {result['fastest']['duration_min']} min (shade {result['fastest']['stats']['shade_pct']}%)")
+        print(f"Coolest: {result['coolest']['distance_km']} km, {result['coolest']['duration_min']} min (shade {result['coolest']['stats']['shade_pct']}%)")
         print(f"Same route? {result['routes_identical']}")

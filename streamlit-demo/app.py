@@ -73,21 +73,37 @@ st.markdown("""
 st.markdown("""
 <div class="main-header">
     <h1>🛵 CoolPath — Climate-Aware Route Planner</h1>
-    <p>Madhapur, Hyderabad · 50 km Radius · Satellite surface temperature + tree canopy density</p>
+    <p>Madhapur, Hyderabad · 100 km Radius · Satellite surface temperature + tree canopy density · Auto-refresh every 10 min</p>
 </div>
 """, unsafe_allow_html=True)
+
+
+# ── Auto-refresh (every 10 minutes = 600,000 ms) ───────────
+try:
+    from streamlit_autorefresh import st_autorefresh
+    st_autorefresh(interval=600_000, limit=None, key="auto_refresh_10min")
+except ImportError:
+    # Fallback: use a lightweight JavaScript auto-refresh
+    import streamlit.components.v1 as components
+    components.html(
+        """<script>setTimeout(function(){window.parent.location.reload();}, 600000);</script>""",
+        height=0,
+    )
 
 
 # ── Sidebar ─────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("### ⚙️ Controls")
-    if st.button("🔄 Refresh Satellite Data", use_container_width=True, type="primary"):
+
+    if st.button("🛰️ Fetch Data Now", use_container_width=True, type="primary"):
         for key in list(st.session_state.keys()):
             if key.startswith("lst_") or key.startswith("ndvi_") or key.startswith("route_"):
                 del st.session_state[key]
         st.cache_data.clear()
-        st.success("Cache cleared!")
+        st.success("✅ Cache cleared — fetching fresh data!")
         st.rerun()
+
+    st.caption("⏱️ Auto-refreshes every **10 minutes**")
 
     st.divider()
     st.markdown("### 📍 Coverage Area")
@@ -288,29 +304,75 @@ with tab_router:
 
     # ── Origin input ──
     st.markdown("##### 📍 Origin")
+
+    origin_lat, origin_lon = None, None
+
+    # Check if GPS coords already stored in session state
+    if "gps_lat" in st.session_state and st.session_state["gps_lat"]:
+        origin_lat = st.session_state["gps_lat"]
+        origin_lon = st.session_state["gps_lon"]
+
     col_loc, col_origin = st.columns([1, 3])
 
     with col_loc:
         use_gps = st.button("📍 My Location", key="gps_btn", use_container_width=True)
 
-    origin_lat, origin_lon = None, None
+    if use_gps and not origin_lat:
+        # Inject a tiny JS component that immediately requests geolocation
+        import streamlit.components.v1 as components
+        components.html("""
+        <div id="geo-status" style="font-family:Inter,sans-serif;font-size:13px;color:#64748b;padding:4px 0;">
+            📍 Requesting location...
+        </div>
+        <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(pos) {
+                    var lat = pos.coords.latitude;
+                    var lon = pos.coords.longitude;
+                    document.getElementById('geo-status').innerHTML =
+                        '✅ Got: ' + lat.toFixed(4) + ', ' + lon.toFixed(4);
+                    // Send coords back to Streamlit via query params
+                    var url = new URL(window.parent.location);
+                    url.searchParams.set('gps_lat', lat);
+                    url.searchParams.set('gps_lon', lon);
+                    window.parent.history.replaceState({}, '', url);
+                    // Trigger a rerun by clicking a hidden element
+                    setTimeout(function() { window.parent.location.reload(); }, 800);
+                },
+                function(err) {
+                    document.getElementById('geo-status').innerHTML =
+                        '❌ Location denied: ' + err.message;
+                },
+                { enableHighAccuracy: true, timeout: 10000 }
+            );
+        } else {
+            document.getElementById('geo-status').innerHTML = '❌ Geolocation not supported';
+        }
+        </script>
+        """, height=30)
 
-    if use_gps:
+    # Read GPS coords from query params if available
+    query_params = st.query_params
+    if "gps_lat" in query_params and "gps_lon" in query_params:
         try:
-            from streamlit_geolocation import streamlit_geolocation
-            st.caption("Click the button below to share your location:")
-            location = streamlit_geolocation()
-            if location and location.get('latitude'):
-                origin_lat = location['latitude']
-                origin_lon = location['longitude']
-                st.success(f"📍 Got location: ({origin_lat:.4f}, {origin_lon:.4f})")
-        except Exception as e:
-            st.warning(f"Geolocation unavailable: {e}")
+            origin_lat = float(query_params["gps_lat"])
+            origin_lon = float(query_params["gps_lon"])
+            st.session_state["gps_lat"] = origin_lat
+            st.session_state["gps_lon"] = origin_lon
+        except (ValueError, TypeError):
+            pass
 
     with col_origin:
+        default_origin = (
+            f"{origin_lat:.4f}, {origin_lon:.4f}" if origin_lat
+            else "Madhapur, Hyderabad"
+        )
+        if origin_lat:
+            st.success(f"📍 Using GPS: ({origin_lat:.4f}, {origin_lon:.4f})")
         origin_input = st.text_input(
             "Origin address / street name",
-            value="Madhapur, Hyderabad",
+            value=default_origin,
             placeholder="e.g., Cyber Towers, HITEC City",
             key="origin_text",
             label_visibility="collapsed",
@@ -326,14 +388,12 @@ with tab_router:
     )
 
     # ── Find routes button ──
+    should_compute = False
+
     if st.button("🧭 Find CoolPath", type="primary", use_container_width=True, key="find_routes_v2"):
-        from services.routing import (
-            geocode_location, is_within_region,
-            find_routes as compute_routes, smart_graph_radius,
-        )
+        from services.routing import geocode_location, is_within_region
 
         with st.spinner("🔍 Geocoding locations..."):
-            # Geocode origin
             if origin_lat and origin_lon:
                 origin_coords = (origin_lat, origin_lon, "GPS Location")
             else:
@@ -348,7 +408,6 @@ with tab_router:
                 st.error(f"❌ Could not find: '{dest_input}'. Try a more specific address.")
                 st.stop()
 
-            # Validate region
             if not is_within_region(origin_coords[0], origin_coords[1]):
                 st.error(f"❌ Origin is outside the {config.RADIUS_KM}km coverage area.")
                 st.stop()
@@ -356,14 +415,37 @@ with tab_router:
                 st.error(f"❌ Destination is outside the {config.RADIUS_KM}km coverage area.")
                 st.stop()
 
+        # Store geocoded coords for future slider-triggered recomputation
+        st.session_state["route_origin"] = origin_coords
+        st.session_state["route_dest"] = dest_coords
+        should_compute = True
+
+    # Auto-recompute if sliders changed since last calculation
+    current_weights = (config.SHADE_WEIGHT, config.TEMP_WEIGHT, config.MAX_DEVIATION)
+    last_weights = st.session_state.get("last_weights", None)
+    if ("route_origin" in st.session_state and last_weights is not None
+            and last_weights != current_weights):
+        should_compute = True
+        st.toast("🔄 Recalculating with new weights...", icon="⚙️")
+
+    if should_compute and "route_origin" in st.session_state:
+        from services.routing import find_routes as compute_routes
+        import copy
+
+        origin_coords = st.session_state["route_origin"]
+        dest_coords = st.session_state["route_dest"]
+
         st.info(f"📍 **{origin_coords[2]}** → 🏁 **{dest_coords[2]}**")
 
-        with st.spinner("🛰️ Loading climate data..."):
+        with st.spinner("🗺️ Computing routes..."):
             lst_data = load_lst_data()
             ndvi_data = load_ndvi_data()
 
-        with st.spinner("🗺️ Loading road network & computing routes..."):
-            G = load_road_graph()
+            # IMPORTANT: copy the graph so we don't mutate the cached version
+            # This ensures each slider change gets fresh weights
+            G_original = load_road_graph()
+            G = copy.deepcopy(G_original)
+
             result = compute_routes(
                 G, origin_coords[0], origin_coords[1],
                 dest_coords[0], dest_coords[1], lst_data, ndvi_data,
@@ -374,6 +456,7 @@ with tab_router:
         st.session_state["route_dest_name"] = dest_coords[2]
         st.session_state["route_lst"] = lst_data
         st.session_state["route_ndvi"] = ndvi_data
+        st.session_state["last_weights"] = current_weights
 
     # ── Display results ──
     if "route_result" in st.session_state:

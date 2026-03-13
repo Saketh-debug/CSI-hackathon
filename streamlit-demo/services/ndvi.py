@@ -142,48 +142,72 @@ def _fetch_ndvi_from_gee(bounds):
 
 def _simulate_ndvi(bounds):
     """
-    Simulate realistic NDVI for Hyderabad area.
-    Parks/lakes = high NDVI, urban = low NDVI.
+    Simulate realistic NDVI for Hyderabad 100km area.
+    Uses a radial gradient (urban core → suburban → rural fringe)
+    plus distinct green zones for parks, forests, and tree-lined roads.
+    Produces enough variation to drive meaningful route diversity.
     """
     grid_size = config.HEATMAP_RESOLUTION
     np.random.seed(42)
 
     lats = np.linspace(bounds[0][0], bounds[1][0], grid_size)
     lons = np.linspace(bounds[0][1], bounds[1][1], grid_size)
+    lon_grid, lat_grid = np.meshgrid(lons, lats)
 
-    # Base: low NDVI (urban)
-    grid = np.full((grid_size, grid_size), 0.12)
+    # ── Step 1: Radial gradient base ──
+    # Urban core (~5km from center) = 0.10
+    # Suburban ring (5-20km)        = 0.15 – 0.25
+    # Peri-urban/rural (20-50km)    = 0.25 – 0.40
+    center_lat, center_lon = config.CENTER_LAT, config.CENTER_LON
+    dist_from_center = np.sqrt((lat_grid - center_lat)**2 + (lon_grid - center_lon)**2)
+    # Normalize: 0 at center, ~0.9 at edge of 100km (≈0.9 degrees)
+    dist_norm = dist_from_center / 0.9
+    # Gradient: 0.10 at center → 0.38 at edges
+    grid = 0.10 + 0.28 * np.clip(dist_norm, 0, 1)
 
-    # Green zones with influence radius
+    # ── Step 2: Green zones (parks, forests, lakes, corridors) ──
+    # Format: (lat, lon, peak_ndvi, radius_degrees)
+    # Radii scaled for 100km grid — need ≥0.03 to span multiple cells
     green_areas = [
-        (17.4260, 78.4480, 0.70, 0.030),  # KBR National Park
-        (17.4100, 78.4200, 0.55, 0.020),  # Durgam Cheruvu lake
-        (17.4400, 78.4800, 0.50, 0.025),  # Hussain Sagar
-        (17.3800, 78.4600, 0.65, 0.025),  # Nehru Zoo Park
-        (17.4340, 78.3500, 0.45, 0.020),  # Shilparamam
-        (17.3950, 78.3000, 0.55, 0.030),  # Shamirpet forests
-        (17.5000, 78.3000, 0.60, 0.040),  # Northern outskirts
-        (17.3200, 78.3500, 0.55, 0.035),  # Southern outskirts
-        (17.4700, 78.3400, 0.40, 0.020),  # Gachibowli green belt
-        (17.4100, 78.3600, 0.35, 0.015),  # Botanical garden area
-        (17.3600, 78.3800, 0.45, 0.025),  # Rajendranagar
-        (17.4800, 78.4200, 0.38, 0.020),  # Begumpet gardens
-        # Road tree corridors
-        (17.4400, 78.4100, 0.35, 0.010),  # Road 1 jubilee hills
-        (17.4300, 78.4300, 0.40, 0.012),  # Road 36 jubilee hills
-        (17.4200, 78.4400, 0.42, 0.010),  # Banjara Hills main road
+        # ── Major parks & forests (high NDVI, wide area) ──
+        (17.4260, 78.4480, 0.72, 0.050),  # KBR National Park + surroundings
+        (17.3800, 78.4600, 0.65, 0.040),  # Nehru Zoo Park + Mir Alam Tank
+        (17.5200, 78.3100, 0.68, 0.080),  # Shamirpet forest belt (large)
+        (17.3600, 78.3800, 0.55, 0.050),  # Rajendranagar + university campus
+        (17.3200, 78.5500, 0.60, 0.060),  # Nagarjuna Sagar outskirts
+        (17.6000, 78.4000, 0.58, 0.070),  # Medchal green belt (north)
+        (17.2500, 78.3000, 0.55, 0.060),  # Chevella forests (south-west)
+
+        # ── Lakes — moderate green rings ──
+        (17.4100, 78.4200, 0.50, 0.035),  # Durgam Cheruvu + IT corridor
+        (17.4400, 78.4800, 0.45, 0.040),  # Hussain Sagar + surroundings
+        (17.4600, 78.3200, 0.48, 0.035),  # Osmansagar lake area
+        (17.3500, 78.5200, 0.42, 0.030),  # Himayat Sagar
+
+        # ── Tree-lined corridors (roads with canopy) ──
+        (17.4400, 78.4100, 0.45, 0.025),  # Jubilee Hills roads
+        (17.4200, 78.4400, 0.42, 0.025),  # Banjara Hills main roads
+        (17.4340, 78.3500, 0.38, 0.025),  # Shilparamam → Gachibowli corridor
+        (17.4800, 78.4200, 0.35, 0.020),  # Begumpet → Secunderabad
+        (17.4500, 78.3700, 0.40, 0.020),  # Madhapur local tree cover
+        (17.3900, 78.4800, 0.38, 0.020),  # Nampally → Abids corridor
+
+        # ── Suburban moderate green ──
+        (17.5500, 78.5000, 0.45, 0.060),  # North-east outskirts
+        (17.3000, 78.4000, 0.40, 0.050),  # South suburban
+        (17.4000, 78.2500, 0.50, 0.060),  # West rural belt
+        (17.4500, 78.5500, 0.38, 0.050),  # East suburban
     ]
 
-    for gz_lat, gz_lon, ndvi_val, radius in green_areas:
-        for i, lat in enumerate(lats):
-            for j, lon in enumerate(lons):
-                dist = np.sqrt((lat - gz_lat)**2 + (lon - gz_lon)**2)
-                influence = ndvi_val * np.exp(-(dist**2) / (2 * radius**2))
-                grid[i, j] = max(grid[i, j], grid[i, j] + influence)
+    for gz_lat, gz_lon, ndvi_peak, radius in green_areas:
+        dist = np.sqrt((lat_grid - gz_lat)**2 + (lon_grid - gz_lon)**2)
+        influence = ndvi_peak * np.exp(-(dist**2) / (2 * radius**2))
+        # Non-additive: take the higher of current or new
+        grid = np.maximum(grid, influence)
 
-    # Add noise
+    # ── Step 3: Add realistic noise ──
     grid += np.random.normal(0, 0.03, grid.shape)
-    grid = np.clip(grid, 0.0, 0.85)
+    grid = np.clip(grid, 0.02, 0.80)
 
     return grid
 

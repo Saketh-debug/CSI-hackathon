@@ -1,13 +1,13 @@
 """
 CoolPath Configuration
 Centre: Madhapur, Hyderabad
-Radius: 50 km
+Radius: 100 km
 """
 
 # ── Geographic centre ───────────────────────────────────────
 CENTER_LAT = 17.4474
 CENTER_LON = 78.3762
-RADIUS_KM = 50
+RADIUS_KM = 100
 RADIUS_M = RADIUS_KM * 1000
 
 # ── Heatmap raster resolution ───────────────────────────────
@@ -30,8 +30,8 @@ TEMP_WEIGHT = 0.3      # how much temperature contributes to cost
 ROUTING_GRAPH_RADIUS = 15000   # meters — graph download radius around route
 
 # ── Cache TTL (seconds) ─────────────────────────────────────
-TEMP_CACHE_TTL = 3600       # 1 hour
-NDVI_CACHE_TTL = 86400      # 24 hours
+TEMP_CACHE_TTL = 600        # 10 minutes
+NDVI_CACHE_TTL = 600        # 10 minutes
 
 # ── Map defaults ────────────────────────────────────────────
-MAP_ZOOM = 11
+MAP_ZOOM = 10
