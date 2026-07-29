@@ -7,6 +7,19 @@ Main Streamlit Application
 🛵 CoolPath Router — coolest + shadiest route for delivery riders
 """
 
+import sys
+# Enforce UTF-8 for Windows command prompts to prevent 'charmap' encode crashes
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+if hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -171,7 +184,7 @@ tab_temp, tab_canopy, tab_router = st.tabs([
 # ═══════════════════════════════════════════════════════════
 with tab_temp:
     st.markdown("### 🌡️ Surface Temperature Heatmap")
-    st.caption("Land Surface Temperature from MODIS satellite data — continuous heatmap (🟢 cool → 🟡 warm → 🔴 hot)")
+    st.caption("Land Surface Temperature from MODIS satellite data — continuous heatmap (🟢 cool -> 🟡 warm -> 🔴 hot)")
 
     col1, col2 = st.columns([1, 1])
     with col1:
@@ -246,7 +259,7 @@ with tab_temp:
 # ═══════════════════════════════════════════════════════════
 with tab_canopy:
     st.markdown("### 🌳 Tree Canopy Density Map")
-    st.caption("NDVI from Sentinel-2 satellite — continuous density (🟤 no trees → 🟡 sparse → 🟢 dense canopy / shade)")
+    st.caption("NDVI from Sentinel-2 satellite — continuous density (🟤 no trees -> 🟡 sparse -> 🟢 dense canopy / shade)")
 
     if st.button("🛰️ Refresh Canopy Data", key="ndvi_fetch"):
         st.cache_data.clear()
@@ -435,7 +448,7 @@ with tab_router:
         origin_coords = st.session_state["route_origin"]
         dest_coords = st.session_state["route_dest"]
 
-        st.info(f"📍 **{origin_coords[2]}** → 🏁 **{dest_coords[2]}**")
+        st.info(f"📍 **{origin_coords[2]}** -> 🏁 **{dest_coords[2]}**")
 
         with st.spinner("🗺️ Computing routes..."):
             lst_data = load_lst_data()

@@ -1,11 +1,23 @@
 """
 Climate-Aware Routing Service v3
 - Downloads graph ONCE + saves to disk (GraphML) for instant reuse
-- Dynamic graph sizing based on A→B distance
+- Dynamic graph sizing based on A->B distance
 - High-contrast climate weights for genuinely different routes
 """
 
 import sys
+# Enforce UTF-8 for Windows command prompts to prevent 'charmap' encode crashes
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+if hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 import numpy as np
 import pickle
 from math import radians, cos, sin, asin, sqrt
@@ -40,7 +52,7 @@ def get_cached_graph():
     if cache_file.exists():
         print(f"[Routing] Loading cached graph from {cache_file}")
         G = ox.load_graphml(str(cache_file))
-        print(f"[Routing]  → {G.number_of_nodes()} nodes, {G.number_of_edges()} edges (cached)")
+        print(f"[Routing]  -> {G.number_of_nodes()} nodes, {G.number_of_edges()} edges (cached)")
         return G
 
     # Download once — 8km radius covers most Madhapur/Banjara Hills/HITEC City routes
@@ -51,11 +63,11 @@ def get_cached_graph():
         network_type='drive',
         simplify=True,
     )
-    print(f"[Routing]  → {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
+    print(f"[Routing]  -> {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
 
     # Save to disk
     ox.save_graphml(G, str(cache_file))
-    print(f"[Routing]  → Saved to {cache_file} (future loads will be instant)")
+    print(f"[Routing]  -> Saved to {cache_file} (future loads will be instant)")
 
     return G
 
@@ -68,7 +80,7 @@ def smart_graph_radius(origin_lat, origin_lon, dest_lat, dest_lon):
     dist_km = haversine_km(origin_lat, origin_lon, dest_lat, dest_lon)
     mid_lat = (origin_lat + dest_lat) / 2
     mid_lon = (origin_lon + dest_lon) / 2
-    print(f"[Routing] A→B straight = {dist_km:.1f}km")
+    print(f"[Routing] A->B straight = {dist_km:.1f}km")
     return mid_lat, mid_lon, dist_km
 
 
@@ -245,7 +257,7 @@ def route_climate_stats(G, route, lst_data=None, ndvi_data=None):
 
 
 def route_coords(G, route):
-    """Node list → (lat, lon) list."""
+    """Node list -> (lat, lon) list."""
     return [(G.nodes[n]['y'], G.nodes[n]['x']) for n in route]
 
 

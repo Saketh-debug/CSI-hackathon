@@ -122,7 +122,7 @@ export default function MobileCoolPathRouter() {
       }}>
         <span className="material-symbols-outlined" style={{ color: '#10b77f', fontSize: '22px' }}>eco</span>
         <span style={{ fontWeight: 800, fontSize: '16px', color: '#0f172a', letterSpacing: '-0.3px' }}>
-          CoolPath <span style={{ color: '#10b77f' }}>Mobile</span>
+          VerDex <span style={{ color: '#10b77f' }}>Mobile</span>
         </span>
         {/* Layer toggles in top bar */}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '6px' }}>
@@ -258,7 +258,7 @@ export default function MobileCoolPathRouter() {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <div style={{ width: '20px', height: '3px', background: '#10b77f', borderRadius: '2px' }} />
-              <span style={{ fontSize: '11px', fontWeight: 600, color: '#334155' }}>CoolPath</span>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: '#334155' }}>VerDex</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <div style={{ width: '20px', borderTop: '2px dashed #ef4444' }} />
@@ -335,7 +335,7 @@ export default function MobileCoolPathRouter() {
           }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span className="material-symbols-outlined" style={{ color: '#10b77f', fontSize: '18px' }}>travel_explore</span>
-            <span style={{ fontWeight: 700, fontSize: '13px', color: '#0f172a' }}>Plan Your CoolPath</span>
+            <span style={{ fontWeight: 700, fontSize: '13px', color: '#0f172a' }}>Plan Your VerDex</span>
             <span className="material-symbols-outlined" style={{ color: '#94a3b8', fontSize: '16px', marginLeft: '4px' }}>
               {sheetState === 'full' ? 'expand_more' : 'expand_less'}
             </span>
@@ -539,7 +539,7 @@ export default function MobileCoolPathRouter() {
                   </div>
                 </div>
 
-                {/* CoolPath */}
+                {/* VerDex */}
                 <div style={{
                   background: '#f0fdf9', border: '2px solid #10b77f', borderRadius: '14px',
                   padding: '12px', boxShadow: '0 4px 12px rgba(16,183,127,0.12)',
@@ -548,7 +548,7 @@ export default function MobileCoolPathRouter() {
                     display: 'inline-block', background: '#10b77f', color: 'white',
                     fontSize: '9px', fontWeight: 700, padding: '2px 6px',
                     borderRadius: '5px', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '6px',
-                  }}>CoolPath</span>
+                  }}>VerDex</span>
                   <p style={{ fontSize: '18px', fontWeight: 800, color: '#065f46', margin: '0 0 8px', display: 'flex', alignItems: 'baseline', gap: '6px' }}>
                     {cool.distance_km} km
                     {cool.duration_min && <span style={{ fontSize: '12px', fontWeight: 600, color: '#34d399' }}>• {formatTime(cool.duration_min)}</span>}
@@ -588,7 +588,7 @@ export default function MobileCoolPathRouter() {
                 <p style={{ fontSize: '12px', color: '#64748b', lineHeight: 1.5, margin: 0, fontStyle: 'italic' }}>
                   {result.routes_identical
                     ? <><span style={{ fontWeight: 700, color: '#10b77f' }}>Note:</span> Both routes are identical — the fastest path already has good shade coverage.</>
-                    : <><span style={{ fontWeight: 700, color: '#10b77f' }}>CoolPath:</span> {cool.stats.shade_pct - fast.stats.shade_pct > 0
+                    : <><span style={{ fontWeight: 700, color: '#10b77f' }}>VerDex:</span> {cool.stats.shade_pct - fast.stats.shade_pct > 0
                         ? `Gives ${(cool.stats.shade_pct - fast.stats.shade_pct).toFixed(0)}% more shade with only +${cool.deviation_pct}% extra distance.`
                         : `Avoids hotter zones while staying close to the fastest path.`}</>
                   }

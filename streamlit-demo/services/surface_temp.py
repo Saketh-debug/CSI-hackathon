@@ -226,7 +226,7 @@ def _save_heatmap_image(grid, bounds):
     import matplotlib.pyplot as plt
     import matplotlib.colors as mcolors
 
-    # Custom colormap: green (cool) → yellow (mid) → red (hot)
+    # Custom colormap: green (cool) -> yellow (mid) -> red (hot)
     colors = ['#15803d', '#22c55e', '#a3e635', '#eab308', '#f97316', '#ef4444', '#b91c1c']
     cmap = mcolors.LinearSegmentedColormap.from_list('temp_heatmap', colors, N=256)
 

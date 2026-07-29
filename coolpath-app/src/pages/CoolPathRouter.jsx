@@ -8,52 +8,52 @@ import MapResizer from '../components/MapResizer'
 // Component to imperatively fit map bounds when a new route is calculated
 function RouteFitter({ result }) {
   const map = useMap()
-  
+
   useEffect(() => {
     if (result && result.fastest?.coords?.length) {
       const allCoords = [
         ...result.fastest.coords,
         ...(result.coolest && !result.routes_identical ? result.coolest.coords : [])
       ]
-      
+
       if (allCoords.length > 0) {
         // Calculate bounding box [ [minLat, minLon], [maxLat, maxLon] ]
         let minLat = Infinity, minLon = Infinity
         let maxLat = -Infinity, maxLon = -Infinity
-        
+
         allCoords.forEach(([lat, lon]) => {
           if (lat < minLat) minLat = lat
           if (lat > maxLat) maxLat = lat
           if (lon < minLon) minLon = lon
           if (lon > maxLon) maxLon = lon
         })
-        
+
         // Pad the bounds slightly and fit map
-        map.fitBounds([ [minLat, minLon], [maxLat, maxLon] ], { padding: [50, 50] })
+        map.fitBounds([[minLat, minLon], [maxLat, maxLon]], { padding: [50, 50] })
       }
     }
   }, [result, map])
-  
+
   return null
 }
 
 export default function CoolPathRouter() {
   const navigate = useNavigate()
-  const [origin, setOrigin]           = useState('Madhapur, Hyderabad')
+  const [origin, setOrigin] = useState('Madhapur, Hyderabad')
   const [destination, setDestination] = useState('Banjara Hills, Hyderabad')
   const [shadeWeight, setShadeWeight] = useState(0.5)
-  const [tempWeight, setTempWeight]   = useState(0.3)
-  const [maxDev, setMaxDev]           = useState(1.3)
+  const [tempWeight, setTempWeight] = useState(0.3)
+  const [maxDev, setMaxDev] = useState(1.3)
 
   const [activeLayer, setActiveLayer] = useState('heatmap')  // 'heatmap' | 'canopy' | null
-  const [mapStyle, setMapStyle]       = useState('osm')      // 'osm' | 'satellite'
+  const [mapStyle, setMapStyle] = useState('osm')      // 'osm' | 'satellite'
 
   const { result, loading, error, compute } = useRoute()
   const { data: tempData } = useTemperatureData()
   const { data: ndviData } = useCanopyData()
 
   const CENTER = [17.4474, 78.3762]
-  const lstBounds  = tempData?.bounds ?? [[17.0, 77.9], [17.9, 78.8]]
+  const lstBounds = tempData?.bounds ?? [[17.0, 77.9], [17.9, 78.8]]
   const ndviBounds = ndviData?.bounds ?? [[17.0, 77.9], [17.9, 78.8]]
 
   const fast = result?.fastest
@@ -79,9 +79,9 @@ export default function CoolPathRouter() {
   // Map center: fit to route if available, else Hyderabad
   const mapCenter = fast?.coords?.length
     ? [
-        (fast.coords[0][0] + fast.coords[fast.coords.length - 1][0]) / 2,
-        (fast.coords[0][1] + fast.coords[fast.coords.length - 1][1]) / 2,
-      ]
+      (fast.coords[0][0] + fast.coords[fast.coords.length - 1][0]) / 2,
+      (fast.coords[0][1] + fast.coords[fast.coords.length - 1][1]) / 2,
+    ]
     : CENTER
 
   return (
@@ -96,7 +96,7 @@ export default function CoolPathRouter() {
           <div className="p-6 space-y-4 border-b border-slate-100 bg-slate-50/50">
             <div className="flex items-center gap-2 mb-2">
               <span className="material-symbols-outlined text-primary text-xl">travel_explore</span>
-              <h3 className="font-semibold text-base text-slate-800">Plan Your CoolPath</h3>
+              <h3 className="font-semibold text-base text-slate-800">Plan Your Coolpath</h3>
             </div>
 
             <div className="space-y-3">
@@ -149,13 +149,13 @@ export default function CoolPathRouter() {
               </button>
             </div>
 
-            <button
+            {/* <button
               onClick={() => navigate('/walk-option')}
               className="w-full bg-emerald-50 text-emerald-700 font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 border border-emerald-200 hover:bg-emerald-100 transition-all"
             >
               <span className="material-symbols-outlined">directions_walk</span>
               Walk Option
-            </button>
+            </button> */}
 
             {/* Error display */}
             {error && (
@@ -257,11 +257,11 @@ export default function CoolPathRouter() {
                   </div>
                 </div>
 
-                {/* CoolPath Route Card */}
+                {/* VerDex Route Card */}
                 <div className="p-4 rounded-xl border-2 border-success bg-success/5 cursor-pointer transition-all shadow-lg shadow-success/5 ring-4 ring-success/5">
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <span className="bg-success text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide">CoolPath Route</span>
+                      <span className="bg-success text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide">VerDex Route</span>
                       <h5 className="text-lg font-bold mt-1 text-success flex items-baseline gap-1.5">
                         {cool.distance_km} km
                         {cool.duration_min && <span className="text-sm font-medium text-success/70">• {formatTime(cool.duration_min)}</span>}
@@ -307,7 +307,7 @@ export default function CoolPathRouter() {
                 ) : (
                   <div className="mt-4 p-4 rounded-lg bg-sky-50 border border-sky-100">
                     <p className="text-xs leading-relaxed text-slate-500 italic">
-                      <span className="font-bold text-primary">CoolPath:</span> {cool.stats.shade_pct - fast.stats.shade_pct > 0
+                      <span className="font-bold text-primary">VerDex:</span> {cool.stats.shade_pct - fast.stats.shade_pct > 0
                         ? `Gives ${(cool.stats.shade_pct - fast.stats.shade_pct).toFixed(0)}% more shade with only +${cool.deviation_pct}% extra distance.`
                         : `Avoids hotter zones while staying close to the fastest path.`}
                     </p>
@@ -328,7 +328,7 @@ export default function CoolPathRouter() {
           >
             <MapResizer />
             <RouteFitter result={result} />
-            
+
             {mapStyle === 'osm' ? (
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             ) : (
@@ -337,7 +337,7 @@ export default function CoolPathRouter() {
                 attribution="Esri"
               />
             )}
-            
+
             {/* LST overlay at 35% opacity */}
             {activeLayer === 'heatmap' && tempData?.image_url && (
               <ImageOverlay url={tempData.image_url} bounds={lstBounds} opacity={0.35} />
@@ -422,7 +422,7 @@ export default function CoolPathRouter() {
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-1.5 bg-success rounded-full" />
-                  <span className="text-xs font-semibold text-slate-700">CoolPath Route</span>
+                  <span className="text-xs font-semibold text-slate-700">VerDex Route</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-0 border-b-2 border-dashed border-red-500" />

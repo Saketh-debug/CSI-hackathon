@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-const API_BASE = 'http://localhost:8000'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || ''
 
 // Simple markdown-lite renderer: bold **text**, newlines, bullet •
 function renderMarkdown(text) {
@@ -32,7 +32,7 @@ export default function ChatBot() {
     {
       role: 'assistant',
       content:
-        "Hi! I'm **EcoAssist** 🌿 — your AI guide for the CoolPath platform. Ask me about weather, tree canopy, cool routes, or anything about this platform!",
+        "Hi! I'm **EcoAssist** 🌿 — your AI guide for the VerDex platform. Ask me about weather, tree canopy, cool routes, or anything about this platform!",
     },
   ])
   const [input, setInput] = useState('')
@@ -201,7 +201,7 @@ export default function ChatBot() {
               EcoAssist
             </div>
             <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '11px', marginTop: '1px' }}>
-              Powered by Llama 3 • CoolPath AI
+              Powered by Local LLM • VerDex AI
             </div>
           </div>
           <div

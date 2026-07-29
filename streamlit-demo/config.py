@@ -4,6 +4,12 @@ Centre: Madhapur, Hyderabad
 Radius: 100 km
 """
 
+import os
+from dotenv import load_dotenv
+
+# Load env variables from .env
+load_dotenv()
+
 # ── Geographic centre ───────────────────────────────────────
 CENTER_LAT = 17.4474
 CENTER_LON = 78.3762
@@ -14,14 +20,15 @@ RADIUS_M = RADIUS_KM * 1000
 HEATMAP_RESOLUTION = 80    # NxN grid for continuous heatmap image
 
 # ── GEE ─────────────────────────────────────────────────────
-GEE_PROJECT = "umbra-intelligence"
-GEE_SERVICE_ACCOUNT = "pixel-pioneers@umbra-intelligence.iam.gserviceaccount.com"
-GEE_CREDENTIALS_FILE = "gee-credentials.json"
+GEE_PROJECT = os.getenv("GEE_PROJECT", "umbra-intelligence")
+GEE_SERVICE_ACCOUNT = os.getenv("GEE_SERVICE_ACCOUNT", "pixel-pioneers@umbra-intelligence.iam.gserviceaccount.com")
+GEE_CREDENTIALS_FILE = os.getenv("GEE_CREDENTIALS_FILE", "gee-credentials.json")
+
 
 # ── Temperature thresholds (°C) ─────────────────────────────
-TEMP_DANGER = 40       # 🔴 DANGER
-TEMP_CAUTION = 35      # 🟡 CAUTION
-                       # below → 🟢 SAFE
+TEMP_DANGER = 40       # DANGER
+TEMP_CAUTION = 35      # CAUTION
+                       # below -> SAFE
 
 # ── Routing ─────────────────────────────────────────────────
 MAX_DEVIATION = 1.3    # cool route can be at most 1.3× fastest distance

@@ -16,13 +16,28 @@ def send_whatsapp_message(phone, message):
         print("Twilio is not configured. Please check environment variables.")
         return None
 
+    # Clean the recipient phone number
+    clean_phone = str(phone).replace(' ', '').replace('-', '').replace('(', '').replace(')', '')
+    if clean_phone.startswith('whatsapp:'):
+        to_number = clean_phone
+    else:
+        if not clean_phone.startswith('+'):
+            clean_phone = '+' + clean_phone
+        to_number = f"whatsapp:{clean_phone}"
+
+    # Clean the sender phone number (from_)
+    from_number = TWILIO_WHATSAPP_NUMBER
+    if not from_number.startswith('whatsapp:'):
+        from_number = f"whatsapp:{from_number}"
+
     try:
         msg = client.messages.create(
             body=message,
-            from_=TWILIO_WHATSAPP_NUMBER,
-            to=f"whatsapp:{phone}"
+            from_=from_number,
+            to=to_number
         )
+        print(f"WhatsApp message sent to {to_number}: {msg.sid}")
         return msg.sid
     except Exception as e:
-        print(f"Failed to send WhatsApp message to {phone}: {e}")
+        print(f"Failed to send WhatsApp message to {to_number}: {e}")
         return None

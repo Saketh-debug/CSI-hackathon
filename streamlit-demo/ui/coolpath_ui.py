@@ -146,7 +146,7 @@ def create_route_map(route_result, origin_name="A", dest_name="B",
         </div>
         <hr style="margin: 8px 0; border-color: #e5e7eb;">
         <div style="font-size:11px; color:#6b7280;">
-            Shade: {fast['stats']['shade_pct']}% → {cool['stats']['shade_pct']}%<br>
+            Shade: {fast['stats']['shade_pct']}% -> {cool['stats']['shade_pct']}%<br>
             Extra distance: +{cool.get('deviation_pct', 0)}%
         </div>
     </div>

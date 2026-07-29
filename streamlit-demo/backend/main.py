@@ -6,6 +6,18 @@ services/*.py continues to work without modification.
 """
 
 import sys
+# Enforce UTF-8 for Windows command prompts to prevent 'charmap' encode crashes
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+if hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 import threading
 import numpy as np
 from pathlib import Path
@@ -21,6 +33,11 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Optional, List
 import os
+from dotenv import load_dotenv
+
+# Load env variables from .env
+load_dotenv()
+
 
 # ── Static file paths ───────────────────────────────────────
 DATA_DIR = ROOT / "data"
@@ -453,6 +470,12 @@ def compute_route(req: RouteRequest):
         G_original = get_cached_graph()
         G = copy.deepcopy(G_original)
     except Exception as e:
+        import traceback
+        try:
+            with open("error_traceback.log", "w", encoding="utf-8") as f:
+                f.write(traceback.format_exc())
+        except Exception:
+            pass
         raise HTTPException(status_code=503, detail=f"Road graph unavailable: {e}")
 
     # ── Compute routes ─────────────────────────────────────
@@ -625,13 +648,15 @@ async def chat_endpoint(req: ChatRequest):
     messages.append({"role": "user", "content": req.message})
 
     # ── 6. Call Ollama ─────────────────────────────────────
-    OLLAMA_URL = "http://localhost:11434/api/chat"
+    OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen3.5:4b")
+    OLLAMA_URL = f"{OLLAMA_BASE_URL.rstrip('/')}/api/chat"
 
     try:
         ollama_resp = _requests.post(
             OLLAMA_URL,
             json={
-                "model": "llama3",
+                "model": OLLAMA_MODEL,
                 "messages": messages,
                 "stream": False,
                 "options": {
@@ -650,7 +675,7 @@ async def chat_endpoint(req: ChatRequest):
             detail="Ollama is not running. Please start it with: ollama serve",
         )
     except _requests.exceptions.Timeout:
-        raise HTTPException(status_code=504, detail="Llama 3 took too long to respond.")
+        raise HTTPException(status_code=504, detail="LLM took too long to respond.")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"LLM error: {e}")
 

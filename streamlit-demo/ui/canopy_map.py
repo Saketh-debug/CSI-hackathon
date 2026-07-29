@@ -71,7 +71,7 @@ def create_canopy_map(ndvi_data):
                 color = '#15803d'
                 fill_color = '#22c55e'
                 group = dense_group
-                shade_text = "Excellent shade ☀️→🌳"
+                shade_text = "Excellent shade ☀️->🌳"
             elif level == "MODERATE":
                 color = '#65a30d'
                 fill_color = '#a3e635'

@@ -176,5 +176,5 @@ if __name__ == "__main__":
     data = fetch_temperature_grid(force_refresh=True)
     print(f"Got {len(data)} points")
     for d in data[:3]:
-        print(f"  ({d['lat']}, {d['lon']}) → {d['current_temp']}°C "
+        print(f"  ({d['lat']}, {d['lon']}) -> {d['current_temp']}°C "
               f"(feels {d['apparent_temp']}°C) [{d['level']}]")

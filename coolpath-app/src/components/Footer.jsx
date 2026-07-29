@@ -13,7 +13,7 @@ export default function Footer() {
             <div className="flex h-8 w-8 items-center justify-center rounded bg-primary/10 text-primary">
               <span className="material-symbols-outlined text-lg">thermostat</span>
             </div>
-            <span className="text-lg font-bold text-slate-900">CoolPath</span>
+            <span className="text-lg font-bold text-slate-900">VerDex</span>
           </div>
           <div className="flex flex-wrap justify-center gap-8">
             <a className="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">Privacy Policy</a>
@@ -23,7 +23,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-12 text-center text-xs text-slate-400">
-          © 2024 CoolPath Thermal Intelligence. Built for a resilient future.
+          © 2024 VerDex Thermal Intelligence. Built for a resilient future.
         </div>
       </div>
     </footer>

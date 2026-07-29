@@ -70,7 +70,8 @@ export default function Messaging() {
         body: JSON.stringify({ phone: singlePhone, message: singleMessage })
       })
       if (!res.ok) {
-        throw new Error('Failed to send message')
+        const errData = await res.json().catch(() => ({}))
+        throw new Error(errData.detail || 'Failed to send message')
       }
       setSingleStatus('weather') // Intermediate status
       setSinglePhone('')
@@ -113,7 +114,10 @@ export default function Messaging() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phones: bulkPhones, message: bulkMessage })
       })
-      if (!res.ok) throw new Error('Failed to send bulk messages')
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}))
+        throw new Error(errData.detail || 'Failed to send bulk messages')
+      }
 
       setBulkStatus('weather') // Intermediate UI state
 

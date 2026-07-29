@@ -143,7 +143,7 @@ def _fetch_ndvi_from_gee(bounds):
 def _simulate_ndvi(bounds):
     """
     Simulate realistic NDVI for Hyderabad 100km area.
-    Uses a radial gradient (urban core → suburban → rural fringe)
+    Uses a radial gradient (urban core -> suburban -> rural fringe)
     plus distinct green zones for parks, forests, and tree-lined roads.
     Produces enough variation to drive meaningful route diversity.
     """
@@ -162,7 +162,7 @@ def _simulate_ndvi(bounds):
     dist_from_center = np.sqrt((lat_grid - center_lat)**2 + (lon_grid - center_lon)**2)
     # Normalize: 0 at center, ~0.9 at edge of 100km (≈0.9 degrees)
     dist_norm = dist_from_center / 0.9
-    # Gradient: 0.10 at center → 0.38 at edges
+    # Gradient: 0.10 at center -> 0.38 at edges
     grid = 0.10 + 0.28 * np.clip(dist_norm, 0, 1)
 
     # ── Step 2: Green zones (parks, forests, lakes, corridors) ──
@@ -187,10 +187,10 @@ def _simulate_ndvi(bounds):
         # ── Tree-lined corridors (roads with canopy) ──
         (17.4400, 78.4100, 0.45, 0.025),  # Jubilee Hills roads
         (17.4200, 78.4400, 0.42, 0.025),  # Banjara Hills main roads
-        (17.4340, 78.3500, 0.38, 0.025),  # Shilparamam → Gachibowli corridor
-        (17.4800, 78.4200, 0.35, 0.020),  # Begumpet → Secunderabad
+        (17.4340, 78.3500, 0.38, 0.025),  # Shilparamam -> Gachibowli corridor
+        (17.4800, 78.4200, 0.35, 0.020),  # Begumpet -> Secunderabad
         (17.4500, 78.3700, 0.40, 0.020),  # Madhapur local tree cover
-        (17.3900, 78.4800, 0.38, 0.020),  # Nampally → Abids corridor
+        (17.3900, 78.4800, 0.38, 0.020),  # Nampally -> Abids corridor
 
         # ── Suburban moderate green ──
         (17.5500, 78.5000, 0.45, 0.060),  # North-east outskirts
@@ -219,7 +219,7 @@ def _save_ndvi_image(grid):
     import matplotlib.colors as mcolors
     import matplotlib.pyplot as plt
 
-    # Colormap: brown (no trees) → yellow → green (dense canopy)
+    # Colormap: brown (no trees) -> yellow -> green (dense canopy)
     colors = ['#92400e', '#d97706', '#eab308', '#84cc16', '#22c55e', '#15803d', '#064e3b']
     cmap = mcolors.LinearSegmentedColormap.from_list('ndvi_cmap', colors, N=256)
 
